@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html xmlns:th="http://thymeleaf.org">
-<head th:replace="fragments/head :: head ('Ticker Logger - Home')"></head>
+<head th:replace="~{fragments/head :: head ('Ticker Logger - Home')}"></head>
 
 <body class="d-flex flex-column h-100">
 
-<header th:replace="fragments/header :: header"></header>
+<header th:replace="~{fragments/header :: header}"></header>
 
 <main class="flex-shrink-0">
     <div class="container">
@@ -13,7 +13,7 @@
     </div>
 </main>
 
-<footer th:replace="fragments/footer :: footer"></footer>
+<footer th:replace="~{fragments/footer :: footer}"></footer>
 
 </body>
 
