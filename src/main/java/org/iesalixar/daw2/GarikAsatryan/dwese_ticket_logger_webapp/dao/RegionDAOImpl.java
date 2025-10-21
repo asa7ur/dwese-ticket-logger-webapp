@@ -30,7 +30,7 @@ public class RegionDAOImpl implements RegionDAO {
     @Override
     public void insertRegion(Region region) {
         logger.info("Inserting region with code: {} and name: {}", region.getCode(), region.getName());
-        String sql = "INSERT INTO regions (code; name) VALUES (?, ?)";
+        String sql = "INSERT INTO regions (code, name) VALUES (?, ?)";
         int rowsAffected = jdbcTemplate.update(sql, region.getCode(), region.getName());
         logger.info("Inserted region. Rows affected: {}", rowsAffected);
     }
@@ -44,7 +44,7 @@ public class RegionDAOImpl implements RegionDAO {
     }
 
     @Override
-    public void deleteRegion(int id) {
+    public void deleteRegion(long id) {
         logger.info("Deleting region with id: {}", id);
         String sql = "DELETE FROM regions WHERE id = ?";
         int rowsAffected = jdbcTemplate.update(sql, id);
@@ -52,7 +52,7 @@ public class RegionDAOImpl implements RegionDAO {
     }
 
     @Override
-    public Region getRegionById(int id) {
+    public Region getRegionById(long id) {
         logger.info("Retrieving region by id: {}", id);
         String sql = "SELECT * FROM regions WHERE id = ?";
         try {

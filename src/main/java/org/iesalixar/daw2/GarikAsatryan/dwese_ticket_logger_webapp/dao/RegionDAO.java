@@ -12,9 +12,9 @@ public interface RegionDAO {
 
     void updateRegion(Region region) throws SQLException;
 
-    void deleteRegion(int id) throws SQLException;
+    void deleteRegion(long id) throws SQLException;
 
-    Region getRegionById(int id) throws SQLException;
+    Region getRegionById(long id) throws SQLException;
 
     boolean existsRegionByCode(String code) throws SQLException;
 

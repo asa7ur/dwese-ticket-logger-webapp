@@ -44,7 +44,7 @@ public class RegionController {
     }
 
     @GetMapping("/edit")
-    public String showEditForm(@RequestParam("id") int id, Model model) {
+    public String showEditForm(@RequestParam("id") long id, Model model) {
         logger.info("Mostrando formulario de edición para la región con ID {}", id);
         Region region = null;
         try {
