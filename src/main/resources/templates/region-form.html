@@ -5,30 +5,28 @@
 <header th:replace="~{fragments/header:: header}"></header>
 
 <main class="container mt-5">
-    <h1 th:text="${region.id == null ? 'Add New Region' : 'Edit Region'}"></h1>
-
-    <div th:text="${errorMessage}" class="alert alert-danger">
-        <p th:text="${errorMessage}"></p>
-    </div>
+    <h1 th:text="${region.id == null ? 'Añadir Nueva Comunidad Autónoma' : 'Editar Comunidad Autónoma'}"></h1>
 
     <div th:if="${errorMessage}" class="alert alert-danger" th:text="${errorMessage}"></div>
 
-    <form th:action="${region.id == null ? '/regions/insert' : '/regions/update'}"
+    <form th:action="@{${region.id == null ? '/regions/insert' : '/regions/update'}}"
+
           th:object="${region}" method="post" class="mt-4">
 
         <input type="hidden" th:field="*{id}"/>
+
         <div class="mb-3">
-            <label for="code" class="form-label">Code:</label>
+            <label for="code" class="form-label">Código:</label>
             <input type="text" th:field="*{code}" id="code" class="form-control" required/>
         </div>
         <div class="mb-3">
-            <label for="name" class="form-label">Name:</label>
+            <label for="name" class="form-label">Nombre:</label>
             <input type="text" th:field="*{name}" id="name" class="form-control" required/>
         </div>
-        <button type="submit" class="btn btn-primary" th:text="${region.id == null ? 'Create' : 'Update'}"></button>
+        <button type="submit" class="btn btn-primary" th:text="${region.id == null ? 'Crear' : 'Actualizar'}"></button>
     </form>
 
-    <a href="#" th:href="@{/regions}" class="btn btn-secondary mt-3">Back to List</a>
+    <a href="#" th:href="@{/regions}" class="btn btn-secondary mt-3">Volver a la lista</a>
 </main>
 
 <footer th:replace="~{fragments/footer :: footer}"></footer>

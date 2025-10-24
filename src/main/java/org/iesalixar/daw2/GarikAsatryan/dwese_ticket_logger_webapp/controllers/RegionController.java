@@ -44,7 +44,7 @@ public class RegionController {
     }
 
     @GetMapping("/edit")
-    public String showEditForm(@RequestParam("id") long id, Model model) {
+    public String showEditForm(@RequestParam("id") Long id, Model model) {
         logger.info("Mostrando formulario de edición para la región con ID {}", id);
         Region region = null;
         try {
@@ -97,7 +97,7 @@ public class RegionController {
     }
 
     @PostMapping("/delete")
-    public String deleteRegion(@RequestParam("id") int id, RedirectAttributes redirectAttributes) {
+    public String deleteRegion(@RequestParam("id") Long id, RedirectAttributes redirectAttributes) {
         logger.info("Eliminando región con ID {}", id);
         try {
             regionDAO.deleteRegion(id);

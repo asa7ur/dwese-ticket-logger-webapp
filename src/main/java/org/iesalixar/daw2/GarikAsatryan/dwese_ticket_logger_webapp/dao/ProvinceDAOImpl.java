@@ -22,7 +22,7 @@ public class ProvinceDAOImpl implements ProvinceDAO {
     @Override
     public List<Province> listAllProvinces() throws SQLException {
         logger.info("listing all provinces from the database.");
-        String sql = "SELECT * FROM provinces";
+        String sql = "SELECT p.*, r.name AS regionName FROM provinces p JOIN regions r ON p.region_id = r.id";
         List<Province> provinces = jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(Province.class));
         logger.info("Retrieved {} provinces from the database.", provinces.size());
         return provinces;
@@ -30,17 +30,19 @@ public class ProvinceDAOImpl implements ProvinceDAO {
 
     @Override
     public void insertProvince(Province province) throws SQLException {
-        logger.info("Inserting province with code: {} and name: {}", province.getCode(), province.getName());
-        String sql = "INSERT INTO provinces (code, name) VALUES (?, ?)";
-        int rowsAffected = jdbcTemplate.update(sql, province.getCode(), province.getName());
+        logger.info("Inserting province with code: {}, name: {} and region_id: {}", province.getCode(), province.getName(), province.getRegionId());
+        String sql = "INSERT INTO provinces (code, name, region_id) VALUES (?, ?, ?)";
+        int rowsAffected = jdbcTemplate.update(sql, province.getCode(), province.getName(), province.getRegionId());
         logger.info("Inserted province. Rows affected: {}", rowsAffected);
     }
 
     @Override
     public void updateProvince(Province province) throws SQLException {
-        logger.info("Updating province with id: {}", province.getId());
-        String sql = "UPDATE provinces SET code = ?, name = ? WHERE id = ?";
-        int rowsAffected = jdbcTemplate.update(sql, province.getCode(), province.getName(), province.getId());
+        logger.info("Updating province id={}, code={}, name={}, region_id={}",
+                province.getId(), province.getCode(), province.getName(), province.getRegionId());
+        String sql = "UPDATE provinces SET code = ?, name = ?, region_id = ? WHERE id = ?";
+        int rowsAffected = jdbcTemplate.update(sql,
+                province.getCode(), province.getName(), province.getRegionId(), province.getId());
         logger.info("Updated province. Rows affected: {}", rowsAffected);
     }
 
@@ -55,7 +57,10 @@ public class ProvinceDAOImpl implements ProvinceDAO {
     @Override
     public Province getProvinceById(long id) throws SQLException {
         logger.info("Retrieving province by id: {}", id);
-        String sql = "SELECT * FROM provinces WHERE id = ?";
+        String sql = "SELECT p.*, r.name AS regionName " +
+                "FROM provinces p " +
+                "JOIN regions r ON p.region_id = r.id " +
+                "WHERE p.id = ?";
         try {
             Province province = jdbcTemplate.queryForObject(sql, new BeanPropertyRowMapper<>(Province.class), id);
             logger.info("Province retireved: {} - {}", province.getCode(), province.getName());

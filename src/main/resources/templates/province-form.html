@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="~{fragments/head :: head ('Ticket Logger Insertar/Actualizar Provincia')}"></head>
+<body>
+<header th:replace="~{fragments/header :: header}"></header>
+
+<main class="container mt-5">
+    <h1 th:text="${province.id == null ? 'Añadir Nueva Provincia' : 'Editar Provincia'}"></h1>
+
+    <div th:if="${errorMessage}" class="alert alert-danger" th:text="${errorMessage}"></div>
+
+    <form th:action="@{${province.id == null ? '/provinces/insert' : '/provinces/update'}}"
+          th:object="${province}" method="post" class="mt-4">
+
+        <input type="hidden" th:field="*{id}"/>
+
+        <div class="mb-3">
+            <label for="code" class="form-label">Código:</label>
+            <input type="text" th:field="*{code}" id="code" class="form-control" required/>
+        </div>
+
+        <div class="mb-3">
+            <label for="name" class="form-label">Nombre:</label>
+            <input type="text" th:field="*{name}" id="name" class="form-control" required/>
+        </div>
+
+        <div class="mb-3">
+            <label for="regionId" class="form-label">Región:</label>
+            <select th:field="*{regionId}" id="regionId" class="form-select" required>
+                <option value="">-- Selecciona una región --</option>
+                <option th:each="region : ${regions}"
+                        th:value="${region.id}"
+                        th:text="${region.name}">
+                </option>
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-primary"
+                th:text="${province.id == null ? 'Crear' : 'Actualizar'}"></button>
+    </form>
+
+    <a href="#" th:href="@{/provinces}" class="btn btn-secondary mt-3">Volver a la lista</a>
+</main>
+
+<footer th:replace="~{fragments/footer :: footer}"></footer>
+</body>
+</html>

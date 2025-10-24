@@ -8,12 +8,15 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Province {
-    private long id;
+    private Long id;
     private String code;
     private String name;
+    private Long regionId;
+    private String regionName;
 
-    public Province(String code, String name) {
+    public Province(String code, String name, Long regionId) {
         this.code = code;
         this.name = name;
+        this.regionId = regionId;
     }
 }
