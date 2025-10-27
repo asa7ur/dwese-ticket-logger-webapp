@@ -31,6 +31,3 @@ build/
 
 ### VS Code ###
 .vscode/
-
-### VARIABLES DE ENTORNO DEL PROYECTO ###
-.env

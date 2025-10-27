@@ -37,6 +37,7 @@ public class ProvinceController {
             model.addAttribute("errorMessage", "Error al listar las provincias.");
         }
         model.addAttribute("listProvinces", listProvinces);
+        model.addAttribute("activePage", "provinces");
         return "province";
     }
 

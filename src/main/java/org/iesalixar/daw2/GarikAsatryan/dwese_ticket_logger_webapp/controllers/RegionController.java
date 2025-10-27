@@ -33,6 +33,7 @@ public class RegionController {
             model.addAttribute("erroMessage", "Error al listar las regiones.");
         }
         model.addAttribute("listRegions", listRegions);
+        model.addAttribute("activePage", "regions");
         return "region";
     }
 

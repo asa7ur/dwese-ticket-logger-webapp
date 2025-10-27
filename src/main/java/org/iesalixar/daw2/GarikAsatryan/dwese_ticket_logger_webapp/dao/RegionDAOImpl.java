@@ -44,7 +44,7 @@ public class RegionDAOImpl implements RegionDAO {
     }
 
     @Override
-    public void deleteRegion(long id) {
+    public void deleteRegion(Long id) {
         logger.info("Deleting region with id: {}", id);
         String sql = "DELETE FROM regions WHERE id = ?";
         int rowsAffected = jdbcTemplate.update(sql, id);
@@ -52,7 +52,7 @@ public class RegionDAOImpl implements RegionDAO {
     }
 
     @Override
-    public Region getRegionById(long id) {
+    public Region getRegionById(Long id) {
         logger.info("Retrieving region by id: {}", id);
         String sql = "SELECT * FROM regions WHERE id = ?";
         try {
@@ -76,7 +76,7 @@ public class RegionDAOImpl implements RegionDAO {
     }
 
     @Override
-    public boolean existsRegionByCodeAndNotId(String code, long id) {
+    public boolean existsRegionByCodeAndNotId(String code, Long id) {
         logger.info("Checking if region with code: {} exists excluding id: {}",
                 code, id);
         String sql = "SELECT COUNT(*) FROM regions WHERE UPPER(code) = ? AND id != ?";
