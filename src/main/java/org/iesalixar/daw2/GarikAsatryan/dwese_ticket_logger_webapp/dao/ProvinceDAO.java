@@ -12,11 +12,11 @@ public interface ProvinceDAO {
 
     void updateProvince(Province province) throws SQLException;
 
-    void deleteProvince(long id) throws SQLException;
+    void deleteProvince(Long id) throws SQLException;
 
-    Province getProvinceById(long id) throws SQLException;
+    Province getProvinceById(Long id) throws SQLException;
 
     boolean existsProvinceByCode(String code) throws SQLException;
 
-    boolean existsProvinceByCodeAndNotId(String code, long id) throws SQLException;
+    boolean existsProvinceByCodeAndNotId(String code, Long id) throws SQLException;
 }

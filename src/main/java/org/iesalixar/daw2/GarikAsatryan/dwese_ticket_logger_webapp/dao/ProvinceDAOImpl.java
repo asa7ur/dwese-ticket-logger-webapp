@@ -47,7 +47,7 @@ public class ProvinceDAOImpl implements ProvinceDAO {
     }
 
     @Override
-    public void deleteProvince(long id) throws SQLException {
+    public void deleteProvince(Long id) throws SQLException {
         logger.info("Deleting province with id: {}", id);
         String sql = "DELETE FROM provinces WHERE id = ?";
         int rowsAffected = jdbcTemplate.update(sql, id);
@@ -55,7 +55,7 @@ public class ProvinceDAOImpl implements ProvinceDAO {
     }
 
     @Override
-    public Province getProvinceById(long id) throws SQLException {
+    public Province getProvinceById(Long id) throws SQLException {
         logger.info("Retrieving province by id: {}", id);
         String sql = "SELECT p.*, r.name AS regionName " +
                 "FROM provinces p " +
@@ -82,7 +82,7 @@ public class ProvinceDAOImpl implements ProvinceDAO {
     }
 
     @Override
-    public boolean existsProvinceByCodeAndNotId(String code, long id) throws SQLException {
+    public boolean existsProvinceByCodeAndNotId(String code, Long id) throws SQLException {
         logger.info("Checking if proivince with code: {} exists excluding id: {}", code, id);
         String sql = "SELECT COUNT(*) FROM provinces WHERE UPPER(code) = ? AND id != ?";
         Integer count = jdbcTemplate.queryForObject(sql, Integer.class, code.toUpperCase(), id);
