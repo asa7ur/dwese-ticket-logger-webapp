@@ -19,12 +19,16 @@
 
         <div class="mb-3">
             <label for="code" class="form-label">Código:</label>
-            <input type="text" th:field="*{code}" id="code" class="form-control" required/>
+            <input type="text" th:field="*{code}" id="code" class="form-control"/>
+            <div th:if="${#fields.hasErrors('code')}" class="text-danger" th:errors="*{code}"></div>
         </div>
+
         <div class="mb-3">
             <label for="name" class="form-label">Nombre:</label>
-            <input type="text" th:field="*{name}" id="name" class="form-control" required/>
+            <input type="text" th:field="*{name}" id="name" class="form-control"/>
+            <div th:if="${#fields.hasErrors('name')}" class="text-danger" th:errors="*{name}"></div>
         </div>
+
         <button type="submit" class="btn btn-primary" th:text="${region.id == null ? 'Crear' : 'Actualizar'}"></button>
     </form>
 

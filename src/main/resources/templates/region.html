@@ -7,7 +7,7 @@
 <header th:replace="~{fragments/header :: header}"></header>
 
 <main class="container mt-5">
-    <h1>Lista de Comunidades Autónomas</h1>
+    <h1 th:text="#{msg.region.title}"></h1>
 
     <div th:if="${errorMessage}" class="alert alert-danger">
         <p th:text="${errorMessage}"></p>

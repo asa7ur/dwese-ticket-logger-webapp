@@ -1,5 +1,6 @@
 package org.iesalixar.daw2.GarikAsatryan.dwese_ticket_logger_webapp.controllers;
 
+import jakarta.validation.Valid;
 import org.iesalixar.daw2.GarikAsatryan.dwese_ticket_logger_webapp.dao.RegionDAO;
 import org.iesalixar.daw2.GarikAsatryan.dwese_ticket_logger_webapp.entities.Region;
 import org.slf4j.Logger;
@@ -7,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -62,9 +64,12 @@ public class RegionController {
     }
 
     @PostMapping("/insert")
-    public String insertRegion(@ModelAttribute("region") Region region, RedirectAttributes redirectAttributes) {
+    public String insertRegion(@Valid @ModelAttribute("region") Region region, BindingResult result, RedirectAttributes redirectAttributes) {
         logger.info("Insertando nueva región con código {}", region.getCode());
         try {
+            if (result.hasErrors()) {
+                return "region-form";
+            }
             if (regionDAO.existsRegionByCode(region.getCode())) {
                 logger.warn("El código de la región {} ya existe.", region.getCode());
                 redirectAttributes.addFlashAttribute("errorMessage", "El código de la región ya existe.");
@@ -80,9 +85,12 @@ public class RegionController {
     }
 
     @PostMapping("/update")
-    public String updateRegion(@ModelAttribute("region") Region region, RedirectAttributes redirectAttributes) {
+    public String updateRegion(@Valid @ModelAttribute("region") Region region, BindingResult result, RedirectAttributes redirectAttributes) {
         logger.info("Actualizando región con ID {}", region.getId());
         try {
+            if (result.hasErrors()) {
+                return "region-form";
+            }
             if (regionDAO.existsRegionByCodeAndNotId(region.getCode(), region.getId())) {
                 logger.warn("El código de la región {} ya existe para otra región.", region.getCode());
                 redirectAttributes.addFlashAttribute("errorMessage", "El código de la región ya existe para otra región.");
