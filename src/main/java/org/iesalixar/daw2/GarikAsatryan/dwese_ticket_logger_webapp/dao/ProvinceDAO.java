@@ -6,17 +6,17 @@ import java.sql.SQLException;
 import java.util.List;
 
 public interface ProvinceDAO {
-    List<Province> listAllProvinces() throws SQLException;
+    List<Province> listAllProvinces();
 
-    void insertProvince(Province province) throws SQLException;
+    void insertProvince(Province province);
 
-    void updateProvince(Province province) throws SQLException;
+    void updateProvince(Province province);
 
-    void deleteProvince(Long id) throws SQLException;
+    void deleteProvince(Long id);
 
-    Province getProvinceById(Long id) throws SQLException;
+    Province getProvinceById(Long id);
 
-    boolean existsProvinceByCode(String code) throws SQLException;
+    boolean existsProvinceByCode(String code);
 
-    boolean existsProvinceByCodeAndNotId(String code, Long id) throws SQLException;
+    boolean existsProvinceByCodeAndNotId(String code, Long id);
 }
