@@ -1,6 +1,8 @@
 package org.iesalixar.daw2.GarikAsatryan.dwese_ticket_logger_webapp.dao;
 
 import org.iesalixar.daw2.GarikAsatryan.dwese_ticket_logger_webapp.entities.Region;
+import org.iesalixar.daw2.GarikAsatryan.dwese_ticket_logger_webapp.entities.dto.RegionDTO;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.stereotype.Repository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,7 +15,10 @@ import java.util.List;
 @Repository
 @Transactional
 public class RegionDAOImpl implements RegionDAO {
+    private final int itemsPerPage = 5;
+
     private static final Logger logger = LoggerFactory.getLogger(RegionDAOImpl.class);
+
     @PersistenceContext
     private EntityManager entityManager;
 
@@ -25,6 +30,26 @@ public class RegionDAOImpl implements RegionDAO {
                 Region.class).getResultList();
         logger.info("Retrieved {} regions from the database.", regions.size());
         return regions;
+    }
+
+    @Override
+    public RegionDTO listAllRegions(int currentPage) {
+        logger.info("Listing paginated regions for page {}", currentPage);
+
+        String query = "SELECT r FROM Region r ORDER BY r.name";
+        List<Region> regions = entityManager.createQuery(query, Region.class)
+                .setFirstResult((currentPage - 1) * itemsPerPage)
+                .setMaxResults(itemsPerPage)
+                .getResultList();
+
+        Long totalRegions = entityManager.createQuery("SELECT COUNT(r) FROM Region r", Long.class)
+                .getSingleResult();
+
+        int totalPages = (int) Math.ceil((double) totalRegions / itemsPerPage);
+
+        logger.info("Retrieved {} regions (page {} of {}).", regions.size(), currentPage, totalPages);
+
+        return new RegionDTO(regions, totalPages, currentPage);
     }
 
     @Override

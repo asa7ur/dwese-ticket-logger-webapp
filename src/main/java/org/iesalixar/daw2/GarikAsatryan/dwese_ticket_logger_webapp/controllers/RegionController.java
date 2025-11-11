@@ -3,6 +3,7 @@ package org.iesalixar.daw2.GarikAsatryan.dwese_ticket_logger_webapp.controllers;
 import jakarta.validation.Valid;
 import org.iesalixar.daw2.GarikAsatryan.dwese_ticket_logger_webapp.dao.RegionDAO;
 import org.iesalixar.daw2.GarikAsatryan.dwese_ticket_logger_webapp.entities.Region;
+import org.iesalixar.daw2.GarikAsatryan.dwese_ticket_logger_webapp.entities.dto.RegionDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,13 +24,16 @@ public class RegionController {
     private RegionDAO regionDAO;
 
     @GetMapping
-    public String listRegions(Model model) {
-        logger.info("Solicitando la lista de todas las regiones...");
-        List<Region> listRegions = regionDAO.listAllRegions();
-        logger.info("Se han cargado {} regiones.", listRegions.size());
+    public String listRegions(@RequestParam(defaultValue = "1") int page, Model model) {
+        logger.info("Solicitando la lista de regiones (página {})", page);
 
-        model.addAttribute("listRegions", listRegions);
+        RegionDTO regionDTO = regionDAO.listAllRegions(page);
+
+        model.addAttribute("listRegions", regionDTO.getRegions());
+        model.addAttribute("totalPages", regionDTO.getPages());
+        model.addAttribute("currentPage", regionDTO.getCurrentPage());
         model.addAttribute("activePage", "regions");
+
         return "region";
     }
 
