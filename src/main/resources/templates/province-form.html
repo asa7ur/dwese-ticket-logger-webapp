@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="es">
-<head th:replace="~{fragments/head :: head ('Ticket Logger Insertar/Actualizar Provincia')}"></head>
+<head th:replace="~{fragments/head :: head ('Ticket Logger - Insertar/Actualizar Provincia')}"></head>
 <body>
 <header th:replace="~{fragments/header :: header}"></header>
 
@@ -16,30 +16,33 @@
 
         <div class="mb-3">
             <label for="code" class="form-label">Código:</label>
-            <input type="text" th:field="*{code}" id="code" class="form-control" required/>
+            <input type="text" th:field="*{code}" id="code" class="form-control" required maxlength="2"/>
+            <div class="text-danger" th:if="${#fields.hasErrors('code')}" th:errors="*{code}"></div>
         </div>
 
         <div class="mb-3">
             <label for="name" class="form-label">Nombre:</label>
-            <input type="text" th:field="*{name}" id="name" class="form-control" required/>
+            <input type="text" th:field="*{name}" id="name" class="form-control" required maxlength="100"/>
+            <div class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
         </div>
 
         <div class="mb-3">
-            <label for="regionId" class="form-label">Región:</label>
-            <select th:field="*{regionId}" id="regionId" class="form-select" required>
+            <label for="region" class="form-label">Región:</label>
+            <select th:field="*{region.id}" id="region" class="form-select" required>
                 <option value="">-- Selecciona una región --</option>
                 <option th:each="region : ${regions}"
                         th:value="${region.id}"
                         th:text="${region.name}">
                 </option>
             </select>
+            <div class="text-danger" th:if="${#fields.hasErrors('region')}" th:errors="*{region}"></div>
         </div>
 
         <button type="submit" class="btn btn-primary"
                 th:text="${province.id == null ? 'Crear' : 'Actualizar'}"></button>
     </form>
 
-    <a href="#" th:href="@{/provinces}" class="btn btn-secondary mt-3">Volver a la lista</a>
+    <a th:href="@{/provinces}" class="btn btn-secondary mt-3">Volver a la lista</a>
 </main>
 
 <footer th:replace="~{fragments/footer :: footer}"></footer>

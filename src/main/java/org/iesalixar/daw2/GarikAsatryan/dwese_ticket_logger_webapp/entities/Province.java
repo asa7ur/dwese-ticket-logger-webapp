@@ -4,9 +4,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.List;
 
@@ -33,10 +31,13 @@ public class Province {
     @NotNull(message = "{msg.province.region.notNull}")
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "region_id", nullable = false)
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     private Region region;
 
-    @OneToMany(mappedBy = "province", cascade = CascadeType.ALL, fetch =
-            FetchType.LAZY)
+    @OneToMany(mappedBy = "province", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     private List<Location> locations;
 
     public Province(String code, String name, Region region) {

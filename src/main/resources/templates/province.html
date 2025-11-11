@@ -7,9 +7,8 @@
 <main class="container mt-5">
     <h1>Lista de Provincias</h1>
 
-    <div th:if="${errorMessage}" class="alert alert-danger">
-        <p th:text="${errorMessage}"></p>
-    </div>
+    <div th:if="${errorMessage}" class="alert alert-danger" th:text="${errorMessage}"></div>
+    <div th:if="${successMessage}" class="alert alert-success" th:text="${successMessage}"></div>
 
     <div class="mb-3">
         <a th:href="@{/provinces/new}" class="btn btn-success">+ Nueva Provincia</a>
@@ -30,13 +29,14 @@
             <td th:text="${province.id}"></td>
             <td th:text="${province.code}"></td>
             <td th:text="${province.name}"></td>
-            <td th:text="${province.regionName}">-</td>
+            <td th:text="${province.region != null ? province.region.name : '-'}">-</td>
             <td>
                 <a th:href="@{/provinces/edit(id=${province.id})}" class="btn btn-primary btn-sm">Editar</a>
                 <form th:action="@{/provinces/delete}" method="post" class="d-inline">
                     <input type="hidden" name="id" th:value="${province.id}">
                     <button type="submit" class="btn btn-danger btn-sm"
-                            th:onclick="|return confirm('¿Seguro que deseas eliminar esta provincia?')|">Eliminar
+                            onclick="return confirm('¿Seguro que deseas eliminar esta provincia?')">
+                        Eliminar
                     </button>
                 </form>
             </td>
@@ -44,10 +44,9 @@
         </tbody>
     </table>
 
-    <a href="#" th:href="@{/}" class="btn btn-secondary mt-3">Volver al inicio</a>
+    <a th:href="@{/}" class="btn btn-secondary mt-3">Volver al inicio</a>
 </main>
 
 <footer th:replace="~{fragments/footer :: footer}"></footer>
-
 </body>
 </html>
