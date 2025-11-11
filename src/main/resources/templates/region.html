@@ -27,6 +27,7 @@
             <th>ID</th>
             <th>Código</th>
             <th>Nombre</th>
+            <th>Imagen</th>
             <th>Acciones</th>
         </tr>
         </thead>
@@ -35,6 +36,14 @@
             <td th:text="${region.id}"></td>
             <td th:text="${region.code}"></td>
             <td th:text="${region.name}"></td>
+            <td>
+                <img th:if="${region.image != null}"
+                     th:src="@{'/uploads/' + ${region.image}}"
+                     alt="Imagen de la región"
+                     style="width: 150px; height: 100px; object-fit: cover;"/>
+                <span th:if="${region.image == null}"
+                      th:text="'Sin imagen'"></span>
+            </td>
             <td>
                 <a th:href="@{/regions/edit(id=${region.id})}" class="btn btn-primary btn-sm">Editar</a>
                 <form th:action="@{/regions/delete}" method="post" class="d-inline">
