@@ -1,8 +1,8 @@
 package org.iesalixar.daw2.GarikAsatryan.dwese_ticket_logger_webapp.controllers;
 
 import jakarta.validation.Valid;
-import org.iesalixar.daw2.GarikAsatryan.dwese_ticket_logger_webapp.dao.ProvinceDAO;
-import org.iesalixar.daw2.GarikAsatryan.dwese_ticket_logger_webapp.dao.RegionDAO;
+import org.iesalixar.daw2.GarikAsatryan.dwese_ticket_logger_webapp.repositories.ProvinceRepository;
+import org.iesalixar.daw2.GarikAsatryan.dwese_ticket_logger_webapp.repositories.RegionRepository;
 import org.iesalixar.daw2.GarikAsatryan.dwese_ticket_logger_webapp.entities.Province;
 import org.iesalixar.daw2.GarikAsatryan.dwese_ticket_logger_webapp.entities.Region;
 import org.slf4j.Logger;
@@ -23,15 +23,15 @@ public class ProvinceController {
     private static final Logger logger = LoggerFactory.getLogger(ProvinceController.class);
 
     @Autowired
-    private ProvinceDAO provinceDAO;
+    private ProvinceRepository provinceRepository;
 
     @Autowired
-    private RegionDAO regionDAO;
+    private RegionRepository regionRepository;
 
     @GetMapping
     public String listProvinces(Model model) {
         logger.info("Solicitando la lista de todas las provincias...");
-        List<Province> listProvinces = provinceDAO.listAllProvinces();
+        List<Province> listProvinces = provinceRepository.listAllProvinces();
         logger.info("Se han cargado {} provincias.", listProvinces.size());
         model.addAttribute("listProvinces", listProvinces);
         model.addAttribute("activePage", "provinces");
@@ -43,7 +43,7 @@ public class ProvinceController {
         logger.info("Mostrando formulario para nueva provincia.");
         model.addAttribute("province", new Province());
 
-        List<Region> regions = regionDAO.listAllRegions();
+        List<Region> regions = regionRepository.findAll();
         model.addAttribute("regions", regions);
 
         return "province-form";
@@ -52,7 +52,7 @@ public class ProvinceController {
     @GetMapping("/edit")
     public String showEditForm(@RequestParam("id") Long id, Model model, RedirectAttributes redirectAttributes) {
         logger.info("Mostrando formulario de edición para la provincia con ID {}", id);
-        Province province = provinceDAO.getProvinceById(id);
+        Province province = provinceRepository.getProvinceById(id);
 
         if (province == null) {
             logger.warn("No se encontró la provincia con ID {}", id);
@@ -61,7 +61,7 @@ public class ProvinceController {
         }
 
         model.addAttribute("province", province);
-        model.addAttribute("regions", regionDAO.listAllRegions());
+        model.addAttribute("regions", regionRepository.findAll());
         return "province-form";
     }
 
@@ -76,18 +76,18 @@ public class ProvinceController {
 
         if (result.hasErrors()) {
             logger.warn("Errores de validación en el formulario de nueva provincia.");
-            model.addAttribute("regions", regionDAO.listAllRegions());
+            model.addAttribute("regions", regionRepository.findAll());
             return "province-form";
         }
 
-        if (provinceDAO.existsProvinceByCode(province.getCode())) {
+        if (provinceRepository.existsProvinceByCode(province.getCode())) {
             logger.warn("El código de la provincia {} ya existe.", province.getCode());
             model.addAttribute("errorMessage", "El código de la provincia ya existe.");
-            model.addAttribute("regions", regionDAO.listAllRegions());
+            model.addAttribute("regions", regionRepository.findAll());
             return "province-form";
         }
 
-        provinceDAO.insertProvince(province);
+        provinceRepository.insertProvince(province);
         logger.info("Provincia {} insertada con éxito.", province.getCode());
         redirectAttributes.addFlashAttribute("successMessage", "Provincia insertada correctamente.");
         return "redirect:/provinces";
@@ -104,18 +104,18 @@ public class ProvinceController {
 
         if (result.hasErrors()) {
             logger.warn("Errores de validación al actualizar la provincia.");
-            model.addAttribute("regions", regionDAO.listAllRegions());
+            model.addAttribute("regions", regionRepository.findAll());
             return "province-form";
         }
 
-        if (provinceDAO.existsProvinceByCodeAndNotId(province.getCode(), province.getId())) {
+        if (provinceRepository.existsProvinceByCodeAndNotId(province.getCode(), province.getId())) {
             logger.warn("El código de la provincia {} ya existe para otra provincia.", province.getCode());
             model.addAttribute("errorMessage", "El código de la provincia ya existe para otra provincia.");
-            model.addAttribute("regions", regionDAO.listAllRegions());
+            model.addAttribute("regions", regionRepository.findAll());
             return "province-form";
         }
 
-        provinceDAO.updateProvince(province);
+        provinceRepository.updateProvince(province);
         logger.info("Provincia con ID {} actualizada con éxito.", province.getId());
         redirectAttributes.addFlashAttribute("successMessage", "Provincia actualizada correctamente.");
         return "redirect:/provinces";
@@ -124,7 +124,7 @@ public class ProvinceController {
     @PostMapping("/delete")
     public String deleteProvince(@RequestParam("id") Long id, RedirectAttributes redirectAttributes) {
         logger.info("Eliminando provincia con ID {}", id);
-        provinceDAO.deleteProvince(id);
+        provinceRepository.deleteProvince(id);
         logger.info("Provincia con ID {} eliminada con éxito.", id);
         redirectAttributes.addFlashAttribute("successMessage", "Provincia eliminada correctamente.");
         return "redirect:/provinces";

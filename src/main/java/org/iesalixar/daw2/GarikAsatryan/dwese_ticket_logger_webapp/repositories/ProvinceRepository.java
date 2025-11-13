@@ -1,11 +1,11 @@
-package org.iesalixar.daw2.GarikAsatryan.dwese_ticket_logger_webapp.dao;
+package org.iesalixar.daw2.GarikAsatryan.dwese_ticket_logger_webapp.repositories;
 
 import org.iesalixar.daw2.GarikAsatryan.dwese_ticket_logger_webapp.entities.Province;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.sql.SQLException;
 import java.util.List;
 
-public interface ProvinceDAO {
+public interface ProvinceRepository extends JpaRepository<Province, Long> {
     List<Province> listAllProvinces();
 
     void insertProvince(Province province);

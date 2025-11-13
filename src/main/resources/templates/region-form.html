@@ -29,24 +29,6 @@
             <div th:if="${#fields.hasErrors('name')}" class="text-danger" th:errors="*{name}"></div>
         </div>
 
-        <div class="mb-3">
-            <label for="imageFile" class="form-label">Imagen:</label>
-
-            <div th:if="${region.image != null}">
-                <img th:src="@{'/uploads/' + ${region.image}}"
-                     alt="Imagen actual"
-                     style="width: 150px; height: 100px; object-fit: cover; display:block; margin-bottom: 10px;"/>
-
-                <form th:action="@{/regions/deleteImage}" method="post" style="display:inline;">
-                    <input type="hidden" name="id" th:value="${region.id}"/>
-                    <button type="submit" class="btn btn-danger btn-sm" style="margin-bottom: 10px;">Borrar imagen
-                    </button>
-                </form>
-            </div>
-
-            <input type="file" name="imageFile" id="imageFile" class="form-control" accept="image/*"/>
-        </div>
-
         <button type="submit" class="btn btn-primary" th:text="${region.id == null ? 'Crear' : 'Actualizar'}"></button>
     </form>
 
