@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/provinces")
@@ -31,7 +32,7 @@ public class ProvinceController {
     @GetMapping
     public String listProvinces(Model model) {
         logger.info("Solicitando la lista de todas las provincias...");
-        List<Province> listProvinces = provinceRepository.listAllProvinces();
+        List<Province> listProvinces = provinceRepository.findAll();
         logger.info("Se han cargado {} provincias.", listProvinces.size());
         model.addAttribute("listProvinces", listProvinces);
         model.addAttribute("activePage", "provinces");
@@ -52,15 +53,15 @@ public class ProvinceController {
     @GetMapping("/edit")
     public String showEditForm(@RequestParam("id") Long id, Model model, RedirectAttributes redirectAttributes) {
         logger.info("Mostrando formulario de edición para la provincia con ID {}", id);
-        Province province = provinceRepository.getProvinceById(id);
+        Optional<Province> provinceOpt = provinceRepository.findById(id);
 
-        if (province == null) {
+        if (provinceOpt.isEmpty()) {
             logger.warn("No se encontró la provincia con ID {}", id);
             redirectAttributes.addFlashAttribute("errorMessage", "No se encontró la provincia con ID " + id);
             return "redirect:/provinces";
         }
 
-        model.addAttribute("province", province);
+        model.addAttribute("province", provinceOpt.get());
         model.addAttribute("regions", regionRepository.findAll());
         return "province-form";
     }
@@ -87,7 +88,7 @@ public class ProvinceController {
             return "province-form";
         }
 
-        provinceRepository.insertProvince(province);
+        provinceRepository.save(province);
         logger.info("Provincia {} insertada con éxito.", province.getCode());
         redirectAttributes.addFlashAttribute("successMessage", "Provincia insertada correctamente.");
         return "redirect:/provinces";
@@ -115,7 +116,7 @@ public class ProvinceController {
             return "province-form";
         }
 
-        provinceRepository.updateProvince(province);
+        provinceRepository.save(province);
         logger.info("Provincia con ID {} actualizada con éxito.", province.getId());
         redirectAttributes.addFlashAttribute("successMessage", "Provincia actualizada correctamente.");
         return "redirect:/provinces";
@@ -124,7 +125,7 @@ public class ProvinceController {
     @PostMapping("/delete")
     public String deleteProvince(@RequestParam("id") Long id, RedirectAttributes redirectAttributes) {
         logger.info("Eliminando provincia con ID {}", id);
-        provinceRepository.deleteProvince(id);
+        provinceRepository.deleteById(id);
         logger.info("Provincia con ID {} eliminada con éxito.", id);
         redirectAttributes.addFlashAttribute("successMessage", "Provincia eliminada correctamente.");
         return "redirect:/provinces";
