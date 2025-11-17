@@ -1,0 +1,52 @@
+2025-11-11T16:46:58.916+01:00  INFO 11376 --- [dwese-ticket-logger-webapp] [main] o.i.d.G.d.demo.HelloControllerTest       : Starting HelloControllerTest using Java 21.0.7 with PID 11376 (started by usuario_tarde in E:\Ruso\DWESE\Unidad 3\dwese-ticket-logger-webapp)
+2025-11-11T16:46:58.918+01:00  INFO 11376 --- [dwese-ticket-logger-webapp] [main] o.i.d.G.d.demo.HelloControllerTest       : No active profile set, falling back to 1 default profile: "default"
+2025-11-11T16:46:59.886+01:00  INFO 11376 --- [dwese-ticket-logger-webapp] [main] o.i.d.G.d.config.LocaleConfig            : LocaleResolver configurado con el idioma predeterminado: es
+2025-11-11T16:46:59.888+01:00  INFO 11376 --- [dwese-ticket-logger-webapp] [main] o.i.d.G.d.config.LocaleConfig            : LocaleChangeInterceptor configurado con el parámetro 'lang'
+2025-11-11T16:46:59.989+01:00  INFO 11376 --- [dwese-ticket-logger-webapp] [main] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page template: index
+2025-11-11T16:46:59.991+01:00  INFO 11376 --- [dwese-ticket-logger-webapp] [main] o.i.d.G.d.config.LocaleConfig            : LocaleChangeInterceptor registrado en el InterceptorRegistry
+2025-11-11T16:47:00.395+01:00  INFO 11376 --- [dwese-ticket-logger-webapp] [main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2025-11-11T16:47:00.396+01:00  INFO 11376 --- [dwese-ticket-logger-webapp] [main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2025-11-11T16:47:00.398+01:00  INFO 11376 --- [dwese-ticket-logger-webapp] [main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 2 ms
+2025-11-11T16:47:00.474+01:00  INFO 11376 --- [dwese-ticket-logger-webapp] [main] o.i.d.G.d.demo.HelloControllerTest       : Started HelloControllerTest in 2.022 seconds (process running for 3.434)
+2025-11-11T16:47:01.569+01:00  INFO 11376 --- [dwese-ticket-logger-webapp] [main] o.i.d.G.d.demo.HelloController           : Request received to /hello endpoiint with parameter name: World
+2025-11-11T16:47:01.619+01:00  INFO 11376 --- [dwese-ticket-logger-webapp] [main] o.i.d.G.d.demo.HelloController           : Request received to /hello endpoiint with parameter name: alum.gasa
+2025-11-11T16:47:01.641+01:00  INFO 11376 --- [dwese-ticket-logger-webapp] [main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [org.iesalixar.daw2.GarikAsatryan.dwese_ticket_logger_webapp.DweseTicketLoggerWebappApplicationTests]: DweseTicketLoggerWebappApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2025-11-11T16:47:01.656+01:00  INFO 11376 --- [dwese-ticket-logger-webapp] [main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration org.iesalixar.daw2.GarikAsatryan.dwese_ticket_logger_webapp.DweseTicketLoggerWebappApplication for test class org.iesalixar.daw2.GarikAsatryan.dwese_ticket_logger_webapp.DweseTicketLoggerWebappApplicationTests
+2025-11-11T16:47:01.748+01:00  INFO 11376 --- [dwese-ticket-logger-webapp] [main] .DweseTicketLoggerWebappApplicationTests : Starting DweseTicketLoggerWebappApplicationTests using Java 21.0.7 with PID 11376 (started by usuario_tarde in E:\Ruso\DWESE\Unidad 3\dwese-ticket-logger-webapp)
+2025-11-11T16:47:01.748+01:00  INFO 11376 --- [dwese-ticket-logger-webapp] [main] .DweseTicketLoggerWebappApplicationTests : No active profile set, falling back to 1 default profile: "default"
+2025-11-11T16:47:02.175+01:00  INFO 11376 --- [dwese-ticket-logger-webapp] [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2025-11-11T16:47:02.177+01:00  INFO 11376 --- [dwese-ticket-logger-webapp] [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JDBC repositories in DEFAULT mode.
+2025-11-11T16:47:02.206+01:00  INFO 11376 --- [dwese-ticket-logger-webapp] [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 21 ms. Found 0 JDBC repository interfaces.
+2025-11-11T16:47:02.219+01:00  INFO 11376 --- [dwese-ticket-logger-webapp] [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2025-11-11T16:47:02.221+01:00  INFO 11376 --- [dwese-ticket-logger-webapp] [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-11-11T16:47:02.231+01:00  INFO 11376 --- [dwese-ticket-logger-webapp] [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 4 ms. Found 0 JPA repository interfaces.
+2025-11-11T16:47:02.327+01:00  INFO 11376 --- [dwese-ticket-logger-webapp] [main] o.i.d.G.d.config.DotenvConfig            : Loading environment variables from .env file...
+2025-11-11T16:47:02.335+01:00  INFO 11376 --- [dwese-ticket-logger-webapp] [main] o.i.d.G.d.config.DotenvConfig            : .env file loaded successfully.
+2025-11-11T16:47:02.514+01:00  INFO 11376 --- [dwese-ticket-logger-webapp] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-11-11T16:47:02.696+01:00  INFO 11376 --- [dwese-ticket-logger-webapp] [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.mariadb.jdbc.Connection@1c62d2ad
+2025-11-11T16:47:02.700+01:00  INFO 11376 --- [dwese-ticket-logger-webapp] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2025-11-11T16:47:02.846+01:00  INFO 11376 --- [dwese-ticket-logger-webapp] [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-11-11T16:47:02.931+01:00  INFO 11376 --- [dwese-ticket-logger-webapp] [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.34.Final
+2025-11-11T16:47:02.975+01:00  INFO 11376 --- [dwese-ticket-logger-webapp] [main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-11-11T16:47:03.149+01:00  INFO 11376 --- [dwese-ticket-logger-webapp] [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-11-11T16:47:03.231+01:00  WARN 11376 --- [dwese-ticket-logger-webapp] [main] org.hibernate.orm.deprecation            : HHH90000025: MySQL8Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-11-11T16:47:03.234+01:00  WARN 11376 --- [dwese-ticket-logger-webapp] [main] org.hibernate.orm.deprecation            : HHH90000026: MySQL8Dialect has been deprecated; use org.hibernate.dialect.MySQLDialect instead
+2025-11-11T16:47:03.261+01:00  INFO 11376 --- [dwese-ticket-logger-webapp] [main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 8.0
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-11-11T16:47:04.301+01:00  INFO 11376 --- [dwese-ticket-logger-webapp] [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-11-11T16:47:04.304+01:00  INFO 11376 --- [dwese-ticket-logger-webapp] [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-11-11T16:47:04.381+01:00  INFO 11376 --- [dwese-ticket-logger-webapp] [main] o.i.d.G.d.config.LocaleConfig            : LocaleResolver configurado con el idioma predeterminado: es
+2025-11-11T16:47:04.382+01:00  INFO 11376 --- [dwese-ticket-logger-webapp] [main] o.i.d.G.d.config.LocaleConfig            : LocaleChangeInterceptor configurado con el parámetro 'lang'
+2025-11-11T16:47:04.498+01:00  WARN 11376 --- [dwese-ticket-logger-webapp] [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-11-11T16:47:04.512+01:00  INFO 11376 --- [dwese-ticket-logger-webapp] [main] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page template: index
+2025-11-11T16:47:04.513+01:00  INFO 11376 --- [dwese-ticket-logger-webapp] [main] o.i.d.G.d.config.LocaleConfig            : LocaleChangeInterceptor registrado en el InterceptorRegistry
+2025-11-11T16:47:04.894+01:00  INFO 11376 --- [dwese-ticket-logger-webapp] [main] .DweseTicketLoggerWebappApplicationTests : Started DweseTicketLoggerWebappApplicationTests in 3.218 seconds (process running for 7.854)
+2025-11-11T16:47:04.948+01:00  INFO 11376 --- [dwese-ticket-logger-webapp] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-11-11T16:47:04.955+01:00  INFO 11376 --- [dwese-ticket-logger-webapp] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2025-11-11T16:47:04.982+01:00  INFO 11376 --- [dwese-ticket-logger-webapp] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.

@@ -9,12 +9,12 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ProvinceRepository extends JpaRepository<Province, Long> {
-    List<Province> findAll();
-
-    void deleteById(Long id);
-
-    Optional<Province> findById(Long id);
-
+    //    List<Province> findAll();
+//
+//    void deleteById(Long id);
+//
+//    Optional<Province> findById(Long id);
+//
     boolean existsProvinceByCode(String code);
 
     @Query("SELECT COUNT(r) > 0 FROM Region r WHERE r.code = :code AND r.id != :id")
