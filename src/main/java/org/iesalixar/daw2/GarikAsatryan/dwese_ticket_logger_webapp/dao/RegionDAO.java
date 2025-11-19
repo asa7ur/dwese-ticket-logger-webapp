@@ -3,7 +3,6 @@ package org.iesalixar.daw2.GarikAsatryan.dwese_ticket_logger_webapp.dao;
 import org.iesalixar.daw2.GarikAsatryan.dwese_ticket_logger_webapp.entities.Region;
 import org.iesalixar.daw2.GarikAsatryan.dwese_ticket_logger_webapp.entities.dto.RegionDTO;
 
-import java.sql.SQLException;
 import java.util.List;
 
 public interface RegionDAO {
