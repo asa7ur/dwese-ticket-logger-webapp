@@ -26,6 +26,7 @@
         <tr>
             <th th:text="#{msg.region.code}">Código</th>
             <th th:text="#{msg.region.name}">Nombre</th>
+            <th th:text="#{msg.region.image}">Imagen</th>
             <th th:text="#{msg.region.actions}">Acciones</th>
         </tr>
         </thead>
@@ -33,6 +34,11 @@
         <tr th:each="region : ${listRegions}">
             <td th:text="${region.code}"></td>
             <td th:text="${region.name}"></td>
+            <td>
+                <img th:if="${region.image}" th:src="@{'/uploads/' + ${region.image}}"
+                     alt="Región" style="max-height: 50px;"/>
+                <span th:unless="${region.image}">No hay imagen</span>
+            </td>
             <td>
                 <a th:href="@{/regions/edit(id=${region.id})}" class="btn btn-primary btn-sm" th:text="#{msg.general.edit}">Editar</a>
                 <form th:action="@{/regions/delete}" method="post" class="d-inline">

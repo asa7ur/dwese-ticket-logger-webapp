@@ -3,6 +3,7 @@ package org.iesalixar.daw2.GarikAsatryan.dwese_ticket_logger_webapp.controllers;
 import jakarta.validation.Valid;
 import org.iesalixar.daw2.GarikAsatryan.dwese_ticket_logger_webapp.entities.Region;
 import org.iesalixar.daw2.GarikAsatryan.dwese_ticket_logger_webapp.repositories.RegionRepository;
+import org.iesalixar.daw2.GarikAsatryan.dwese_ticket_logger_webapp.services.FileStorageService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.Locale;
@@ -22,6 +24,9 @@ public class RegionController {
 
     @Autowired
     private RegionRepository regionRepository;
+
+    @Autowired
+    private FileStorageService fileStorageService;
 
     @GetMapping
     public String listRegions(@RequestParam(defaultValue = "1") int page, Model model) {
@@ -59,6 +64,7 @@ public class RegionController {
     public String insertRegion(
             @Valid @ModelAttribute("region") Region region,
             BindingResult result,
+            @RequestParam("imageFile") MultipartFile imageFile,
             RedirectAttributes redirectAttributes,
             Locale locale,
             Model model) {
@@ -76,6 +82,13 @@ public class RegionController {
             return "region-form";
         }
 
+        if (!imageFile.isEmpty()) {
+            String fileName = fileStorageService.saveFile(imageFile);
+            if (fileName != null) {
+                region.setImage(fileName);
+            }
+        }
+
         regionRepository.save(region);
         logger.info("Región {} insertada con éxito.", region.getCode());
         redirectAttributes.addFlashAttribute("successMessage", "Región insertada correctamente.");
@@ -86,9 +99,10 @@ public class RegionController {
     public String updateRegion(
             @Valid @ModelAttribute("region") Region region,
             BindingResult result,
+            @RequestParam("imageFile") MultipartFile imageFile,
+            RedirectAttributes redirectAttributes,
             Locale locale,
-            Model model,
-            RedirectAttributes redirectAttributes) {
+            Model model) {
 
         logger.info("Actualizando región con ID {}", region.getId());
 
@@ -103,6 +117,18 @@ public class RegionController {
             return "region-form";
         }
 
+        if (imageFile != null && !imageFile.isEmpty()) {
+            Region existingRegion = regionRepository.findById(region.getId()).orElse(null);
+            if (existingRegion != null && existingRegion.getImage() != null) {
+                fileStorageService.deleteFile(existingRegion.getImage());
+            }
+
+            String fileName = fileStorageService.saveFile(imageFile);
+            region.setImage(fileName);
+        } else {
+            regionRepository.findById(region.getId()).ifPresent(r -> region.setImage(r.getImage()));
+        }
+
         regionRepository.save(region);
         logger.info("Región con ID {} actualizada con éxito.", region.getId());
         redirectAttributes.addFlashAttribute("successMessage", "Región actualizada correctamente.");
@@ -110,14 +136,21 @@ public class RegionController {
     }
 
     @PostMapping("/delete")
-    public String deleteRegion(@RequestParam("id") Long id, RedirectAttributes redirectAttributes) {
+    public String deleteRegion(
+            @RequestParam("id") Long id,
+            RedirectAttributes redirectAttributes) {
         logger.info("Eliminando región con ID {}", id);
 
         Optional<Region> regionOpt = regionRepository.findById(id);
-        if (regionOpt.isEmpty()) {
-            logger.warn("No se encontró la región con ID {}", id);
+        if (regionOpt.isPresent()) {
+            Region region = regionOpt.get();
+            if (region.getImage() != null) {
+                fileStorageService.deleteFile(region.getImage());
+            }
+            regionRepository.deleteById(id);
+            redirectAttributes.addFlashAttribute("successMessage", "Región eliminada correctamente.");
+        } else {
             redirectAttributes.addFlashAttribute("errorMessage", "La región no existe.");
-            return "redirect:/regions";
         }
 
         regionRepository.deleteById(id);
