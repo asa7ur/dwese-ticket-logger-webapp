@@ -8,13 +8,18 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 @Component("urlBuilder")
 public class UrlBuilder {
+    public String buildUrl(String... params) {
+        ServletRequestAttributes attrs = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        if (attrs == null) return "";
 
-    public String replaceParam(String param, String value) {
-        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        HttpServletRequest request = attrs.getRequest();
+        ServletUriComponentsBuilder builder = ServletUriComponentsBuilder.fromRequest(request);
 
-        return ServletUriComponentsBuilder.fromRequest(request)
-                .replaceQueryParam(param, value)
-                .build()
-                .toUriString();
+        for (int i = 0; i < params.length; i += 2) {
+            if (i + 1 < params.length) {
+                builder.replaceQueryParam(params[i], params[i + 1]);
+            }
+        }
+        return builder.build().encode().toUriString();
     }
 }

@@ -10,8 +10,9 @@ import org.springframework.data.repository.query.Param;
 public interface ProvinceRepository extends JpaRepository<Province, Long> {
     boolean existsProvinceByCode(String code);
 
-    @Query("SELECT COUNT(r) > 0 FROM Region r WHERE r.code = :code AND r.id != :id")
+    @Query("SELECT COUNT(p) > 0 FROM Province p WHERE p.code = :code AND p.id != :id")
     boolean existsProvinceByCodeAndNotId(@Param("code") String code, @Param("id") Long id);
 
-    Page<Province> findByNameContainingIgnoreCase(String name, Pageable pageable);
+    @Query("SELECT p FROM Province p WHERE LOWER(p.name) LIKE LOWER(CONCAT('%', :term, '%')) OR LOWER(p.region.name) LIKE LOWER(CONCAT('%', :term, '%'))")
+    Page<Province> searchProvinces(@Param("term") String term, Pageable pageable);
 }

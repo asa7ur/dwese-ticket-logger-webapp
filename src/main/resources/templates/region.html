@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="es">
 <head th:replace="~{fragments/head :: head('Ticket Logger - Listado de Comunidades Autónomas')}">
-    <title>Ticket Logger</title>
 </head>
 <body class="d-flex flex-column min-vh-100">
 <header th:replace="~{fragments/header :: header}"></header>
@@ -9,12 +8,11 @@
 <main class="flex-grow-1 container mt-5">
     <h1 th:text="#{msg.region.title}"></h1>
 
-    <div th:if="${errorMessage}" class="alert alert-danger">
-        <p th:text="${errorMessage}"></p>
-    </div>
+    <div th:if="${errorMessage}" class="alert alert-danger" th:text="${errorMessage}"></div>
+    <div th:if="${successMessage}" class="alert alert-success" th:text="${successMessage}"></div>
 
-    <div th:if="${successMessage}" class="alert alert-success">
-        <p th:text="${successMessage}"></p>
+    <div class="mb-3">
+        <a th:href="@{/regions/new}" class="btn btn-success" th:text="#{msg.region.add}"></a>
     </div>
 
     <form th:action="@{/regions}" method="get" class="mb-4">
@@ -23,20 +21,18 @@
                    placeholder="Buscar región por nombre...">
             <input type="hidden" name="sortField" th:value="${sortField}">
             <input type="hidden" name="sortDir" th:value="${sortDir}">
+            <input type="hidden" name="page" value="0">
             <button class="btn btn-primary" type="submit">Buscar</button>
             <a th:href="@{/regions}" class="btn btn-secondary">Limpiar</a>
         </div>
     </form>
 
-    <div class="mb-3">
-        <a th:href="@{/regions/new}" class="btn btn-success" th:text="#{msg.region.add}"></a>
-    </div>
 
     <table class="table table-bordered table-striped mt-3">
         <thead>
         <tr>
             <th>
-                <a th:href="${@urlBuilder.replaceParam('sortField', 'code').replace('sortDir=' + sortDir, 'sortDir=' + reverseSortDir)}"
+                <a th:href="${@urlBuilder.buildUrl('sortField', 'code', 'sortDir', (sortField == 'code' ? reverseSortDir : 'asc'), 'page', '0')}"
                    class="text-dark text-decoration-none">
                     <span th:text="#{msg.region.code}"></span>
                     <i th:if="${sortField == 'code'}"
@@ -44,7 +40,7 @@
                 </a>
             </th>
             <th>
-                <a th:href="${@urlBuilder.replaceParam('sortField', 'name').replace('sortDir=' + sortDir, 'sortDir=' + reverseSortDir)}"
+                <a th:href="${@urlBuilder.buildUrl('sortField', 'name', 'sortDir', (sortField == 'name' ? reverseSortDir : 'asc'), 'page', '0')}"
                    class="text-dark text-decoration-none">
                     <span th:text="#{msg.region.name}"></span>
                     <i th:if="${sortField == 'name'}"
@@ -70,7 +66,7 @@
                 <form th:action="@{/regions/delete}" method="post" class="d-inline">
                     <input type="hidden" name="id" th:value="${region.id}"/>
                     <button type="submit" class="btn btn-danger btn-sm"
-                            th:onclick="|return confirm('¿Seguro que deseas eliminar esta region?');|"
+                            th:onclick="|return confirm('#{msg.general.confirm}');|"
                             th:text="#{msg.general.delete}">Eliminar
                     </button>
                 </form>
@@ -82,24 +78,21 @@
     <nav th:if="${totalPages > 1}" class="mt-4">
         <ul class="pagination justify-content-center">
             <li class="page-item" th:classappend="${currentPage == 0} ? 'disabled'">
-                <a class="page-link"
-                   th:href="${@urlBuilder.replaceParam('page', (currentPage - 1).toString())}">&laquo;</a>
+                <a class="page-link" th:href="${@urlBuilder.buildUrl('page', (currentPage - 1).toString())}">&laquo;</a>
             </li>
             <li class="page-item" th:each="i : ${#numbers.sequence(0, totalPages - 1)}"
                 th:classappend="${i == currentPage} ? 'active'">
-                <a class="page-link" th:href="${@urlBuilder.replaceParam('page', i.toString())}" th:text="${i + 1}"></a>
+                <a class="page-link" th:href="${@urlBuilder.buildUrl('page', i.toString())}" th:text="${i + 1}"></a>
             </li>
             <li class="page-item" th:classappend="${currentPage + 1 == totalPages} ? 'disabled'">
-                <a class="page-link"
-                   th:href="${@urlBuilder.replaceParam('page', (currentPage + 1).toString())}">&raquo;</a>
+                <a class="page-link" th:href="${@urlBuilder.buildUrl('page', (currentPage + 1).toString())}">&raquo;</a>
             </li>
         </ul>
     </nav>
 
-    <a href="#" th:href="@{/}" class="btn btn-secondary mt-3" th:text="#{msg.general.returnHome}">Volver al inicio</a>
+    <a th:href="@{/}" class="btn btn-secondary mt-3" th:text="#{msg.general.returnHome}">Volver al inicio</a>
 </main>
 
 <footer th:replace="~{fragments/footer :: footer}"></footer>
-
 </body>
 </html>

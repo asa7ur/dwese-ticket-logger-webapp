@@ -10,20 +10,23 @@
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 <ul class="navbar-nav me-auto mb-2 mb-md-0">
                     <li class="nav-item">
-                        <a class="nav-link" th:classappend="${activePage == 'home'} ? 'active'" th:href="@{/}" th:text="#{msg.header.home}">Inicio</a>
+                        <a class="nav-link" th:classappend="${activePage == 'home'} ? 'active'" th:href="@{/}"
+                           th:text="#{msg.header.home}">Inicio</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" th:classappend="${activePage == 'regions'} ? 'active'" th:href="@{/regions}" th:text="#{msg.header.regions}">Comunidades Autónomas</a>
+                        <a class="nav-link" th:classappend="${activePage == 'regions'} ? 'active'" th:href="@{/regions}"
+                           th:text="#{msg.header.regions}">Comunidades Autónomas</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" th:classappend="${activePage == 'provinces'} ? 'active'" th:href="@{/provinces}" th:text="#{msg.header.provinces}">Provincias</a>
+                        <a class="nav-link" th:classappend="${activePage == 'provinces'} ? 'active'"
+                           th:href="@{/provinces}" th:text="#{msg.header.provinces}">Provincias</a>
                     </li>
                 </ul>
 
                 <div class="d-flex align-items-center ms-auto">
                     <i class="fas fa-globe text-secondary me-2"></i>
 
-                    <a th:href="${@urlBuilder.replaceParam('lang', 'es')}"
+                    <a th:href="${@urlBuilder.buildUrl('lang', 'es')}"
                        class="nav-link px-1 transition-colors"
                        th:classappend="${#locale.language == 'es'} ? 'text-white fw-bold' : 'text-secondary'">
                         ES
@@ -31,7 +34,7 @@
 
                     <span class="text-secondary mx-1">|</span>
 
-                    <a th:href="${@urlBuilder.replaceParam('lang', 'en')}"
+                    <a th:href="${@urlBuilder.buildUrl('lang', 'en')}"
                        class="nav-link px-1 transition-colors"
                        th:classappend="${#locale.language == 'en'} ? 'text-white fw-bold' : 'text-secondary'">
                         EN

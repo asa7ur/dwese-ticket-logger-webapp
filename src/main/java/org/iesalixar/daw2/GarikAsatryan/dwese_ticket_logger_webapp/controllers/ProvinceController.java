@@ -41,14 +41,12 @@ public class ProvinceController {
             @RequestParam(required = false) String searchTerm,
             Model model) {
 
-        logger.info("Listando provincias - Página: {}, Orden: {} {}, Busqueda: {}", page, sortField, sortDir, searchTerm);
-
         Sort sort = sortDir.equalsIgnoreCase("asc") ? Sort.by(sortField).ascending() : Sort.by(sortField).descending();
         Pageable pageable = PageRequest.of(page, 5, sort);
 
         Page<Province> provincePage;
         if (searchTerm != null && !searchTerm.trim().isEmpty()) {
-            provincePage = provinceRepository.findByNameContainingIgnoreCase(searchTerm, pageable);
+            provincePage = provinceRepository.searchProvinces(searchTerm, pageable);
         } else {
             provincePage = provinceRepository.findAll(pageable);
         }
