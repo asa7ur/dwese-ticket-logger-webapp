@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head th:replace="~{fragments/head :: head('Ticket Logger - Listado de Comunidades Autónomas')}">
+    <title>Ticket Logger</title>
+</head>
+<body class="d-flex flex-column min-vh-100">
+<header th:replace="~{fragments/header :: header}"></header>
+
+<main class="flex-grow-1 container mt-5">
+    <h1 th:text="#{msg.region.title}"></h1>
+
+    <div th:if="${errorMessage}" class="alert alert-danger">
+        <p th:text="${errorMessage}"></p>
+    </div>
+
+    <div th:if="${successMessage}" class="alert alert-success">
+        <p th:text="${successMessage}"></p>
+    </div>
+
+    <div class="mb-3">
+        <a th:href="@{/regions/new}" class="btn btn-success mt-3" th:text="#{msg.region.add}">+ Nueva Comunidad Autónoma</a>
+    </div>
+
+    <table class="table table-bordered table-striped mt-3">
+        <thead>
+        <tr>
+            <th th:text="#{msg.region.code}">Código</th>
+            <th th:text="#{msg.region.name}">Nombre</th>
+            <th th:text="#{msg.region.actions}">Acciones</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="region : ${listRegions}">
+            <td th:text="${region.code}"></td>
+            <td th:text="${region.name}"></td>
+            <td>
+                <a th:href="@{/regions/edit(id=${region.id})}" class="btn btn-primary btn-sm" th:text="#{msg.general.edit}">Editar</a>
+                <form th:action="@{/regions/delete}" method="post" class="d-inline">
+                    <input type="hidden" name="id" th:value="${region.id}"/>
+                    <button type="submit" class="btn btn-danger btn-sm"
+                            th:onclick="|return confirm('¿Seguro que deseas eliminar esta region?');|" th:text="#{msg.general.delete}">Eliminar
+                    </button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <a href="#" th:href="@{/}" class="btn btn-secondary mt-3" th:text="#{msg.general.returnHome}">Volver al inicio</a>
+</main>
+
+<footer th:replace="~{fragments/footer :: footer}"></footer>
+
+</body>
+</html>
