@@ -8,6 +8,9 @@ import org.iesalixar.daw2.GarikAsatryan.dwese_ticket_logger_webapp.repositories.
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -30,12 +33,17 @@ public class ProvinceController {
     private RegionRepository regionRepository;
 
     @GetMapping
-    public String listProvinces(Model model) {
-        logger.info("Solicitando la lista de todas las provincias...");
-        List<Province> listProvinces = provinceRepository.findAll();
-        logger.info("Se han cargado {} provincias.", listProvinces.size());
-        model.addAttribute("listProvinces", listProvinces);
+    public String listProvinces(@RequestParam(defaultValue = "0") int page, Model model) {
+        logger.info("Solicitando la lista de provincias (página {})", page);
+
+        Pageable pageable = PageRequest.of(page, 5);
+        Page<Province> provincePage = provinceRepository.findAll(pageable);
+
+        model.addAttribute("listProvinces", provincePage.getContent());
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", provincePage.getTotalPages());
         model.addAttribute("activePage", "provinces");
+
         return "province";
     }
 

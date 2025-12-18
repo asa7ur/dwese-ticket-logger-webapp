@@ -33,7 +33,8 @@
                 <form th:action="@{/provinces/delete}" method="post" class="d-inline">
                     <input type="hidden" name="id" th:value="${province.id}">
                     <button type="submit" class="btn btn-danger btn-sm"
-                            onclick="return confirm('¿Seguro que deseas eliminar esta provincia?')" th:text="#{msg.province.code}">
+                            onclick="return confirm('¿Seguro que deseas eliminar esta provincia?')"
+                            th:text="#{msg.province.code}">
                         Eliminar
                     </button>
                 </form>
@@ -41,6 +42,23 @@
         </tr>
         </tbody>
     </table>
+
+    <nav th:if="${totalPages > 1}" aria-label="Page navigation" class="mt-4">
+        <ul class="pagination justify-content-center">
+            <li class="page-item" th:classappend="${currentPage == 0} ? 'disabled'">
+                <a class="page-item page-link" th:href="@{${activePage}(page=${currentPage - 1})}">&laquo;</a>
+            </li>
+
+            <li class="page-item" th:each="i : ${#numbers.sequence(0, totalPages - 1)}"
+                th:classappend="${i == currentPage} ? 'active'">
+                <a class="page-link" th:href="@{${activePage}(page=${i})}" th:text="${i + 1}">1</a>
+            </li>
+
+            <li class="page-item" th:classappend="${currentPage + 1 == totalPages} ? 'disabled'">
+                <a class="page-link" th:href="@{${activePage}(page=${currentPage + 1})}">&raquo;</a>
+            </li>
+        </ul>
+    </nav>
 
     <a th:href="@{/}" class="btn btn-secondary mt-3" th:text="#{msg.general.returnHome}">Volver al inicio</a>
 </main>
