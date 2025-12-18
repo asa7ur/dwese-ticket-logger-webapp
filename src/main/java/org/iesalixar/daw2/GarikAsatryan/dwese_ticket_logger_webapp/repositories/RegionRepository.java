@@ -1,6 +1,8 @@
 package org.iesalixar.daw2.GarikAsatryan.dwese_ticket_logger_webapp.repositories;
 
 import org.iesalixar.daw2.GarikAsatryan.dwese_ticket_logger_webapp.entities.Region;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -10,4 +12,6 @@ public interface RegionRepository extends JpaRepository<Region, Long> {
 
     @Query("SELECT COUNT(r) > 0 FROM Region r WHERE r.code = :code AND r.id != :id")
     boolean existsRegionByCodeAndNotId(@Param("code") String code, @Param("id") Long id);
+
+    Page<Region> findByNameContainingIgnoreCase(String name, Pageable pageable);
 }

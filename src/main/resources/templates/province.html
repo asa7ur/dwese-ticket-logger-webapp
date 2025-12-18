@@ -10,6 +10,17 @@
     <div th:if="${errorMessage}" class="alert alert-danger" th:text="${errorMessage}"></div>
     <div th:if="${successMessage}" class="alert alert-success" th:text="${successMessage}"></div>
 
+    <form th:action="@{/provinces}" method="get" class="mb-4">
+        <div class="input-group">
+            <input type="text" name="searchTerm" th:value="${searchTerm}" class="form-control"
+                   placeholder="Buscar provincia por nombre...">
+            <input type="hidden" name="sortField" th:value="${sortField}">
+            <input type="hidden" name="sortDir" th:value="${sortDir}">
+            <button class="btn btn-primary" type="submit">Buscar</button>
+            <a th:href="@{/provinces}" class="btn btn-secondary">Limpiar</a>
+        </div>
+    </form>
+
     <div class="mb-3">
         <a th:href="@{/provinces/new}" class="btn btn-success" th:text="#{msg.province.add}">+ Nueva Provincia</a>
     </div>
@@ -17,10 +28,31 @@
     <table class="table table-bordered table-striped mt-3">
         <thead>
         <tr>
-            <th th:text="#{msg.province.code}">Código</th>
-            <th th:text="#{msg.province.name}">Nombre</th>
-            <th th:text="#{msg.province.region}">Región</th>
-            <th th:text="#{msg.province.actions}">Acciones</th>
+            <th>
+                <a th:href="${@urlBuilder.replaceParam('sortField', 'code').replace('sortDir=' + sortDir, 'sortDir=' + reverseSortDir)}"
+                   class="text-dark text-decoration-none">
+                    <span th:text="#{msg.province.code}"></span>
+                    <i th:if="${sortField == 'code'}"
+                       th:class="${sortDir == 'asc' ? 'fas fa-sort-up' : 'fas fa-sort-down'}"></i>
+                </a>
+            </th>
+            <th>
+                <a th:href="${@urlBuilder.replaceParam('sortField', 'name').replace('sortDir=' + sortDir, 'sortDir=' + reverseSortDir)}"
+                   class="text-dark text-decoration-none">
+                    <span th:text="#{msg.province.name}"></span>
+                    <i th:if="${sortField == 'name'}"
+                       th:class="${sortDir == 'asc' ? 'fas fa-sort-up' : 'fas fa-sort-down'}"></i>
+                </a>
+            </th>
+            <th>
+                <a th:href="${@urlBuilder.replaceParam('sortField', 'region.name').replace('sortDir=' + sortDir, 'sortDir=' + reverseSortDir)}"
+                   class="text-dark text-decoration-none">
+                    <span th:text="#{msg.province.region}"></span>
+                    <i th:if="${sortField == 'region.name'}"
+                       th:class="${sortDir == 'asc' ? 'fas fa-sort-up' : 'fas fa-sort-down'}"></i>
+                </a>
+            </th>
+            <th th:text="#{msg.province.actions}"></th>
         </tr>
         </thead>
         <tbody>
@@ -43,19 +75,19 @@
         </tbody>
     </table>
 
-    <nav th:if="${totalPages > 1}" aria-label="Page navigation" class="mt-4">
+    <nav th:if="${totalPages > 1}" class="mt-4">
         <ul class="pagination justify-content-center">
             <li class="page-item" th:classappend="${currentPage == 0} ? 'disabled'">
-                <a class="page-item page-link" th:href="@{${activePage}(page=${currentPage - 1})}">&laquo;</a>
+                <a class="page-link"
+                   th:href="${@urlBuilder.replaceParam('page', (currentPage - 1).toString())}">&laquo;</a>
             </li>
-
             <li class="page-item" th:each="i : ${#numbers.sequence(0, totalPages - 1)}"
                 th:classappend="${i == currentPage} ? 'active'">
-                <a class="page-link" th:href="@{${activePage}(page=${i})}" th:text="${i + 1}">1</a>
+                <a class="page-link" th:href="${@urlBuilder.replaceParam('page', i.toString())}" th:text="${i + 1}"></a>
             </li>
-
             <li class="page-item" th:classappend="${currentPage + 1 == totalPages} ? 'disabled'">
-                <a class="page-link" th:href="@{${activePage}(page=${currentPage + 1})}">&raquo;</a>
+                <a class="page-link"
+                   th:href="${@urlBuilder.replaceParam('page', (currentPage + 1).toString())}">&raquo;</a>
             </li>
         </ul>
     </nav>

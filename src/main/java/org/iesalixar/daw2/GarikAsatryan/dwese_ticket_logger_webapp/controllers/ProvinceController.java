@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -33,15 +34,32 @@ public class ProvinceController {
     private RegionRepository regionRepository;
 
     @GetMapping
-    public String listProvinces(@RequestParam(defaultValue = "0") int page, Model model) {
-        logger.info("Solicitando la lista de provincias (página {})", page);
+    public String listProvinces(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "name") String sortField,
+            @RequestParam(defaultValue = "asc") String sortDir,
+            @RequestParam(required = false) String searchTerm,
+            Model model) {
 
-        Pageable pageable = PageRequest.of(page, 5);
-        Page<Province> provincePage = provinceRepository.findAll(pageable);
+        logger.info("Listando provincias - Página: {}, Orden: {} {}, Busqueda: {}", page, sortField, sortDir, searchTerm);
+
+        Sort sort = sortDir.equalsIgnoreCase("asc") ? Sort.by(sortField).ascending() : Sort.by(sortField).descending();
+        Pageable pageable = PageRequest.of(page, 5, sort);
+
+        Page<Province> provincePage;
+        if (searchTerm != null && !searchTerm.trim().isEmpty()) {
+            provincePage = provinceRepository.findByNameContainingIgnoreCase(searchTerm, pageable);
+        } else {
+            provincePage = provinceRepository.findAll(pageable);
+        }
 
         model.addAttribute("listProvinces", provincePage.getContent());
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", provincePage.getTotalPages());
+        model.addAttribute("searchTerm", searchTerm);
+        model.addAttribute("sortField", sortField);
+        model.addAttribute("sortDir", sortDir);
+        model.addAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");
         model.addAttribute("activePage", "provinces");
 
         return "province";

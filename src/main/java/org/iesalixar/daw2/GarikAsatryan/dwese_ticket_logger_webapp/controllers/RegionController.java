@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -17,7 +18,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.Locale;
 import java.util.Optional;
 
 @Controller
@@ -32,15 +32,32 @@ public class RegionController {
     private FileStorageService fileStorageService;
 
     @GetMapping
-    public String listRegions(@RequestParam(defaultValue = "0") int page, Model model) {
-        logger.info("Solicitando la lista de regiones (página {})", page);
+    public String listRegions(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "name") String sortField,
+            @RequestParam(defaultValue = "asc") String sortDir,
+            @RequestParam(required = false) String searchTerm,
+            Model model) {
 
-        Pageable pageable = PageRequest.of(page, 5);
-        Page<Region> regionPage = regionRepository.findAll(pageable);
+        logger.info("Listando regiones - Página: {}, Orden: {} {}, Busqueda: {}", page, sortField, sortDir, searchTerm);
+
+        Sort sort = sortDir.equalsIgnoreCase("asc") ? Sort.by(sortField).ascending() : Sort.by(sortField).descending();
+        Pageable pageable = PageRequest.of(page, 5, sort);
+
+        Page<Region> regionPage;
+        if (searchTerm != null && !searchTerm.trim().isEmpty()) {
+            regionPage = regionRepository.findByNameContainingIgnoreCase(searchTerm, pageable);
+        } else {
+            regionPage = regionRepository.findAll(pageable);
+        }
 
         model.addAttribute("listRegions", regionPage.getContent());
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", regionPage.getTotalPages());
+        model.addAttribute("searchTerm", searchTerm);
+        model.addAttribute("sortField", sortField);
+        model.addAttribute("sortDir", sortDir);
+        model.addAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");
         model.addAttribute("activePage", "regions");
 
         return "region";
@@ -74,7 +91,6 @@ public class RegionController {
             BindingResult result,
             @RequestParam("imageFile") MultipartFile imageFile,
             RedirectAttributes redirectAttributes,
-            Locale locale,
             Model model) {
 
         logger.info("Insertando nueva región con código {}", region.getCode());
@@ -109,7 +125,6 @@ public class RegionController {
             BindingResult result,
             @RequestParam("imageFile") MultipartFile imageFile,
             RedirectAttributes redirectAttributes,
-            Locale locale,
             Model model) {
 
         logger.info("Actualizando región con ID {}", region.getId());
