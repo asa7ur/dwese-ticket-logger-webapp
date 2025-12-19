@@ -18,12 +18,12 @@
     <form th:action="@{/regions}" method="get" class="mb-4">
         <div class="input-group">
             <input type="text" name="searchTerm" th:value="${searchTerm}" class="form-control"
-                   placeholder="Buscar región por nombre...">
+                   th:placeholder="#{msg.region.search-placeholder}">
             <input type="hidden" name="sortField" th:value="${sortField}">
             <input type="hidden" name="sortDir" th:value="${sortDir}">
             <input type="hidden" name="page" value="0">
-            <button class="btn btn-primary" type="submit">Buscar</button>
-            <a th:href="@{/regions}" class="btn btn-secondary">Limpiar</a>
+            <button class="btn btn-primary" type="submit" th:text="#{msg.general.search}">Buscar</button>
+            <a th:href="@{/regions}" class="btn btn-secondary" th:text="#{msg.general.clear}">Limpiar</a>
         </div>
     </form>
 
@@ -57,8 +57,8 @@
             <td th:text="${region.name}"></td>
             <td>
                 <img th:if="${region.image}" th:src="@{'/uploads/' + ${region.image}}"
-                     alt="Región" style="max-height: 50px;"/>
-                <span th:unless="${region.image}">No hay imagen</span>
+                     th:alt="#{msg.region-form.current-image}" style="max-height: 50px;"/>
+                <span th:unless="${region.image}" th:text="#{msg.region.no-image}">No hay imagen</span>
             </td>
             <td>
                 <a th:href="@{/regions/edit(id=${region.id})}" class="btn btn-primary btn-sm"

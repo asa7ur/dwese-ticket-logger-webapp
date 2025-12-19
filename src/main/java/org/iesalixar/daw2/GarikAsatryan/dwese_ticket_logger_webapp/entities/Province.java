@@ -33,11 +33,6 @@ public class Province {
     @EqualsAndHashCode.Exclude
     private Region region;
 
-    // @OneToMany(mappedBy = "province", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    // @ToString.Exclude
-    // @EqualsAndHashCode.Exclude
-    // private List<Location> locations;
-
     public Province(String code, String name, Region region) {
         this.code = code;
         this.name = name;

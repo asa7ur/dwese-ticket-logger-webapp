@@ -13,16 +13,16 @@
     <div class="mb-3">
         <a th:href="@{/provinces/new}" class="btn btn-success" th:text="#{msg.province.add}">+ Nueva Provincia</a>
     </div>
-    
+
     <form th:action="@{/provinces}" method="get" class="mb-4">
         <div class="input-group">
             <input type="text" name="searchTerm" th:value="${searchTerm}" class="form-control"
-                   placeholder="Buscar provincia por nombre...">
+                   th:placeholder="#{msg.province.search-placeholder}">
             <input type="hidden" name="sortField" th:value="${sortField}">
             <input type="hidden" name="sortDir" th:value="${sortDir}">
             <input type="hidden" name="page" value="0">
-            <button class="btn btn-primary" type="submit">Buscar</button>
-            <a th:href="@{/provinces}" class="btn btn-secondary">Limpiar</a>
+            <button class="btn btn-primary" type="submit" th:text="#{msg.general.search}">Buscar</button>
+            <a th:href="@{/provinces}" class="btn btn-secondary" th:text="#{msg.general.clear}">Limpiar</a>
         </div>
     </form>
 
@@ -68,7 +68,7 @@
                 <form th:action="@{/provinces/delete}" method="post" class="d-inline">
                     <input type="hidden" name="id" th:value="${province.id}">
                     <button type="submit" class="btn btn-danger btn-sm"
-                            onclick="return confirm('¿Seguro que deseas eliminar esta provincia?')"
+                            th:onclick="|return confirm('#{msg.general.confirm}');|"
                             th:text="#{msg.general.delete}">
                         Eliminar
                     </button>

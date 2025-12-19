@@ -8,6 +8,8 @@ import org.iesalixar.daw2.GarikAsatryan.dwese_ticket_logger_webapp.repositories.
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -32,6 +34,9 @@ public class ProvinceController {
 
     @Autowired
     private RegionRepository regionRepository;
+
+    @Autowired
+    private MessageSource messageSource;
 
     @GetMapping
     public String listProvinces(
@@ -81,7 +86,8 @@ public class ProvinceController {
 
         if (provinceOpt.isEmpty()) {
             logger.warn("No se encontró la provincia con ID {}", id);
-            redirectAttributes.addFlashAttribute("errorMessage", "No se encontró la provincia con ID " + id);
+            String errorMsg = messageSource.getMessage("msg.province.not-found", new Object[]{id}, LocaleContextHolder.getLocale());
+            redirectAttributes.addFlashAttribute("errorMessage", errorMsg);
             return "redirect:/provinces";
         }
 
@@ -107,14 +113,16 @@ public class ProvinceController {
 
         if (provinceRepository.existsProvinceByCode(province.getCode())) {
             logger.warn("El código de la provincia {} ya existe.", province.getCode());
-            model.addAttribute("errorMessage", "El código de la provincia ya existe.");
+            String errorMsg = messageSource.getMessage("msg.province.code-exists", null, LocaleContextHolder.getLocale());
+            model.addAttribute("errorMessage", errorMsg);
             model.addAttribute("regions", regionRepository.findAll());
             return "province-form";
         }
 
         provinceRepository.save(province);
         logger.info("Provincia {} insertada con éxito.", province.getCode());
-        redirectAttributes.addFlashAttribute("successMessage", "Provincia insertada correctamente.");
+        String successMsg = messageSource.getMessage("msg.province.inserted", null, LocaleContextHolder.getLocale());
+        redirectAttributes.addFlashAttribute("successMessage", successMsg);
         return "redirect:/provinces";
     }
 
@@ -135,14 +143,16 @@ public class ProvinceController {
 
         if (provinceRepository.existsProvinceByCodeAndNotId(province.getCode(), province.getId())) {
             logger.warn("El código de la provincia {} ya existe para otra provincia.", province.getCode());
-            model.addAttribute("errorMessage", "El código de la provincia ya existe para otra provincia.");
+            String errorMsg = messageSource.getMessage("msg.province.code-exists", null, LocaleContextHolder.getLocale());
+            model.addAttribute("errorMessage", errorMsg);
             model.addAttribute("regions", regionRepository.findAll());
             return "province-form";
         }
 
         provinceRepository.save(province);
         logger.info("Provincia con ID {} actualizada con éxito.", province.getId());
-        redirectAttributes.addFlashAttribute("successMessage", "Provincia actualizada correctamente.");
+        String successMsg = messageSource.getMessage("msg.province.updated", null, LocaleContextHolder.getLocale());
+        redirectAttributes.addFlashAttribute("successMessage", successMsg);
         return "redirect:/provinces";
     }
 
@@ -151,7 +161,8 @@ public class ProvinceController {
         logger.info("Eliminando provincia con ID {}", id);
         provinceRepository.deleteById(id);
         logger.info("Provincia con ID {} eliminada con éxito.", id);
-        redirectAttributes.addFlashAttribute("successMessage", "Provincia eliminada correctamente.");
+        String successMsg = messageSource.getMessage("msg.province.deleted", null, LocaleContextHolder.getLocale());
+        redirectAttributes.addFlashAttribute("successMessage", successMsg);
         return "redirect:/provinces";
     }
 }

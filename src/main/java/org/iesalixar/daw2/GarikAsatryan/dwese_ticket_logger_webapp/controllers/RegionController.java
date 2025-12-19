@@ -7,6 +7,8 @@ import org.iesalixar.daw2.GarikAsatryan.dwese_ticket_logger_webapp.services.File
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -30,6 +32,9 @@ public class RegionController {
 
     @Autowired
     private FileStorageService fileStorageService;
+
+    @Autowired
+    private MessageSource messageSource;
 
     @GetMapping
     public String listRegions(
@@ -77,7 +82,8 @@ public class RegionController {
 
         if (regionOpt.isEmpty()) {
             logger.warn("No se pudo encontrar la región con ID {}", id);
-            redirectAttributes.addFlashAttribute("errorMessage", "La región no existe.");
+            redirectAttributes.addFlashAttribute("errorMessage",
+                    messageSource.getMessage("msg.region.not-found", null, LocaleContextHolder.getLocale()));
             return "redirect:/regions";
         }
 
@@ -102,7 +108,8 @@ public class RegionController {
 
         if (regionRepository.existsRegionByCode(region.getCode())) {
             logger.warn("El código de la región {} ya existe.", region.getCode());
-            model.addAttribute("errorMessage", "El código de la región ya existe.");
+            model.addAttribute("errorMessage",
+                    messageSource.getMessage("msg.region.code-exists", null, LocaleContextHolder.getLocale()));
             return "region-form";
         }
 
@@ -115,7 +122,8 @@ public class RegionController {
 
         regionRepository.save(region);
         logger.info("Región {} insertada con éxito.", region.getCode());
-        redirectAttributes.addFlashAttribute("successMessage", "Región insertada correctamente.");
+        redirectAttributes.addFlashAttribute("successMessage",
+                messageSource.getMessage("msg.region.inserted", null, LocaleContextHolder.getLocale()));
         return "redirect:/regions";
     }
 
@@ -136,7 +144,8 @@ public class RegionController {
 
         if (regionRepository.existsRegionByCodeAndNotId(region.getCode(), region.getId())) {
             logger.warn("El código de la región {} ya existe para otra región.", region.getCode());
-            model.addAttribute("errorMessage", "El código de la región ya existe para otra región.");
+            model.addAttribute("errorMessage",
+                    messageSource.getMessage("msg.region.code-exists", null, LocaleContextHolder.getLocale()));
             return "region-form";
         }
 
@@ -154,7 +163,8 @@ public class RegionController {
 
         regionRepository.save(region);
         logger.info("Región con ID {} actualizada con éxito.", region.getId());
-        redirectAttributes.addFlashAttribute("successMessage", "Región actualizada correctamente.");
+        redirectAttributes.addFlashAttribute("successMessage",
+                messageSource.getMessage("msg.region.updated", null, LocaleContextHolder.getLocale()));
         return "redirect:/regions";
     }
 
@@ -171,13 +181,13 @@ public class RegionController {
                 fileStorageService.deleteFile(region.getImage());
             }
             regionRepository.deleteById(id);
-            redirectAttributes.addFlashAttribute("successMessage", "Región eliminada correctamente.");
+            redirectAttributes.addFlashAttribute("successMessage",
+                    messageSource.getMessage("msg.region.deleted", null, LocaleContextHolder.getLocale()));
         } else {
-            redirectAttributes.addFlashAttribute("errorMessage", "La región no existe.");
+            redirectAttributes.addFlashAttribute("errorMessage",
+                    messageSource.getMessage("msg.region.not-found", null, LocaleContextHolder.getLocale()));
         }
 
-        regionRepository.deleteById(id);
-        redirectAttributes.addFlashAttribute("successMessage", "Región eliminada correctamente.");
         return "redirect:/regions";
     }
 
