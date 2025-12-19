@@ -5,14 +5,10 @@
 <header th:replace="~{fragments/header :: header}"></header>
 
 <main class="flex-grow-1 container mt-5">
-    <h1 th:text="#{msg.province.title}">Lista de Provincias</h1>
+    <h1 class="mt-4" th:text="#{msg.province.title}">Lista de Provincias</h1>
 
     <div th:if="${errorMessage}" class="alert alert-danger" th:text="${errorMessage}"></div>
     <div th:if="${successMessage}" class="alert alert-success" th:text="${successMessage}"></div>
-
-    <div class="mb-3">
-        <a th:href="@{/provinces/new}" class="btn btn-success" th:text="#{msg.province.add}">+ Nueva Provincia</a>
-    </div>
 
     <form th:action="@{/provinces}" method="get" class="mb-4">
         <div class="input-group">
@@ -93,7 +89,10 @@
         </ul>
     </nav>
 
-    <a th:href="@{/}" class="btn btn-secondary mt-3" th:text="#{msg.general.returnHome}">Volver al inicio</a>
+    <div class="mb-3">
+        <a th:href="@{/provinces/new}" class="btn btn-success" th:text="#{msg.province.add}">+ Nueva Provincia</a>
+        <a th:href="@{/}" class="btn btn-secondary" th:text="#{msg.general.returnHome}">Volver al inicio</a>
+    </div>
 </main>
 
 <footer th:replace="~{fragments/footer :: footer}"></footer>

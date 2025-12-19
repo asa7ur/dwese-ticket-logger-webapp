@@ -41,7 +41,7 @@ public class ProvinceController {
     @GetMapping
     public String listProvinces(
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "name") String sortField,
+            @RequestParam(defaultValue = "code") String sortField,
             @RequestParam(defaultValue = "asc") String sortDir,
             @RequestParam(required = false) String searchTerm,
             Model model) {

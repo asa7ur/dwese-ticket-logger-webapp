@@ -39,7 +39,7 @@ public class RegionController {
     @GetMapping
     public String listRegions(
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "name") String sortField,
+            @RequestParam(defaultValue = "code") String sortField,
             @RequestParam(defaultValue = "asc") String sortDir,
             @RequestParam(required = false) String searchTerm,
             Model model) {

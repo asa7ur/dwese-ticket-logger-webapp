@@ -7,7 +7,7 @@
 <header th:replace="~{fragments/header:: header}"></header>
 
 <main class="flex-grow-1 container mt-5">
-    <h1 th:text="${region.id == null} ? #{msg.region-form.add} : #{msg.region-form.edit}"></h1>
+    <h1 class="mt-2" th:text="${region.id == null} ? #{msg.region-form.add} : #{msg.region-form.edit}"></h1>
 
     <div th:if="${errorMessage}" class="alert alert-danger" th:text="${errorMessage}"></div>
 
@@ -37,10 +37,11 @@
             </div>
         </div>
 
-        <button type="submit" class="btn btn-primary" th:text="${region.id == null} ? #{msg.general.edit} : #{msg.general.update}"></button>
+        <button type="submit" class="btn btn-primary"
+                th:text="${region.id == null} ? #{msg.general.edit} : #{msg.general.update}"></button>
     </form>
 
-    <a href="#" th:href="@{/regions}" class="btn btn-secondary" th:text="#{msg.general.returnList}">Volver a la lista</a>
+    <a th:href="@{/regions}" class="btn btn-secondary mt-2" th:text="#{msg.general.returnList}">Volver a la lista</a>
 </main>
 
 <footer th:replace="~{fragments/footer :: footer}"></footer>
