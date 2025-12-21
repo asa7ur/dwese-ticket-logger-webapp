@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head ('Ticket Logger - Detalle del Ticket')}"></head>
+<body class="d-flex flex-column min-vh-100">
+
+<!-- Incluir el fragmento del header -->
+<header th:replace="~{fragments/header :: header}"></header>
+
+<main class="flex-grow-1 container mt-5">
+    <h1 class="mt-4" th:text="#{msg.ticket-detail.ticket.detail} + ' - ' + ${ticket.id}"></h1>
+
+    <div th:if="${errorMessage}" class="alert alert-danger" th:text="${errorMessage}"></div>
+    <div th:if="${successMessage}" class="alert alert-success" th:text="${successMessage}"></div>
+
+    <!-- Muestra los detalles del ticket -->
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <label class="form-label" th:text="#{msg.ticket-detail.ticket.date} + ':'"></label>
+            <p th:text="${#dates.format(ticket.date, 'dd/MM/yyyy HH:mm')}"></p>
+        </div>
+
+        <div class="col-md-6">
+            <label class="form-label" th:text="#{msg.ticket-detail.ticket.discount} + ':'"></label>
+            <p th:text="${ticket.discount} + '%'"></p>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <label class="form-label" th:text="#{msg.ticket-detail.ticket.total} + ':'"></label>
+            <p th:text="${ticket.total}"></p>
+        </div>
+    </div>
+
+    <!-- Muestra la lista de productos asociados al ticket en una tabla -->
+    <h3 th:text="#{msg.ticket-detail.ticket.products.associated}"></h3>
+    <table class="table table-bordered mt-3">
+        <thead>
+        <tr>
+            <th th:text="#{msg.ticket-detail.product.name}"></th>
+            <th th:text="#{msg.ticket-detail.product.price}"></th>
+            <th th:text="#{msg.ticket-detail.product.actions}"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="product : ${products}">
+            <td th:text="${product.name}"></td>
+            <td th:text="${#numbers.formatDecimal(product.price, 1, 2)}"></td>
+            <td>
+                <!-- Botón para eliminar el producto del ticket -->
+                <form class="d-inline" method="post" th:action="@{/tickets/removeProduct}">
+                    <input name="ticketId" th:value="${ticket.id}" type="hidden"/>
+                    <input name="productId" th:value="${product.id}" type="hidden"/>
+                    <button class="btn btn-danger btn-sm" th:text="#{msg.ticket-detail.product.remove}"
+                            type="submit"></button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <!-- Formulario para buscar un producto existente y añadirlo al ticket -->
+    <h3 th:text="#{msg.ticket-detail.ticket.products.addExisting}"></h3>
+    <form class="mb-3" method="post" th:action="@{/tickets/addExistingProduct}">
+        <input name="ticketId" th:value="${ticket.id}" type="hidden"/>
+        <div class="mb-3">
+            <label class="form-label" for="productSearch" th:text="#{msg.ticket-detail.ticket.searchProduct}"></label>
+            <input class="form-control" id="productSearch" name="productSearch" placeholder="Buscar producto..."
+                   type="text">
+        </div>
+        <button class="btn btn-primary" th:text="#{msg.ticket-detail.product.search}" type="submit"></button>
+    </form>
+
+    <!-- Mostrar resultados de la búsqueda de productos -->
+    <div th:if="${searchResults != null}">
+        <h4 th:text="#{msg.ticket-detail.ticket.searchResults}"></h4>
+        <ul>
+            <li th:each="product : ${searchResults}">
+                <span th:text="${product.name} + ' - ' + ${#numbers.formatDecimal(product.price, 1, 2)}"></span>
+                <form class="d-inline" method="post" th:action="@{/tickets/addProduct}">
+                    <input name="ticketId" th:value="${ticket.id}" type="hidden"/>
+                    <input name="productId" th:value="${product.id}" type="hidden"/>
+                    <button class="btn btn-success btn-sm" th:text="#{msg.ticket-detail.product.add}"
+                            type="submit"></button>
+                </form>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Formulario para añadir un nuevo producto al ticket -->
+    <h3 th:text="#{msg.ticket-detail.ticket.products.addNew}"></h3>
+    <form class="mb-3" method="post" th:action="@{/tickets/addNewProduct}">
+        <input name="ticketId" th:value="${ticket.id}" type="hidden"/>
+        <div class="mb-3">
+            <label class="form-label" for="productName" th:text="#{msg.ticket-detail.product.name}"></label>
+            <input class="form-control" id="productName" name="productName" required type="text">
+        </div>
+        <div class="mb-3">
+            <label class="form-label" for="productPrice" th:text="#{msg.ticket-detail.product.price}"></label>
+            <input class="form-control" id="productPrice" name="productPrice" required step="0.01" type="number">
+        </div>
+        <button class="btn btn-success" th:text="#{msg.ticket-detail.product.create}" type="submit"></button>
+    </form>
+
+    <!-- Botón para volver a la lista de tickets -->
+    <a class="btn btn-secondary mt-3" th:href="@{/tickets}" th:text="#{msg.ticket-detail.ticket.returnback}"></a>
+</main>
+
+<!-- Incluir el fragmento del footer -->
+<footer th:replace="~{fragments/footer :: footer}"></footer>
+
+</body>
+</html>

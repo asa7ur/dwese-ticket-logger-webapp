@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: head ('Ticket Logger - Listado de Tickets')"></head>
+<body class="d-flex flex-column min-vh-100">
+<header th:replace="fragments/header :: header"></header>
+
+<main class="flex-grow-1 container mt-5">
+    <h1 class="mt-4" th:text="#{msg.ticket.title}"></h1>
+
+    <div th:if="${errorMessage}" class="alert alert-danger" th:text="${errorMessage}"></div>
+    <div th:if="${successMessage}" class="alert alert-success" th:text="${successMessage}"></div>
+
+    <table class="table table-bordered table-striped mt-3">
+        <thead>
+        <tr>
+            <th th:text="#{msg.ticket.date}"></th>
+            <th th:text="#{msg.ticket.discount}"></th>
+            <th th:text="#{msg.ticket.total}"></th>
+            <th th:text="#{msg.ticket.supermarket}"></th>
+            <!-- <th th:text="#{msg.ticket.actions}"></th> -->
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="ticket : ${listTickets}">
+            <td th:text="${ticket.date}"></td>
+            <td th:text="${ticket.discount}"></td>
+            <td th:text="${ticket.total}"></td>
+            <!-- <td th:text="${ticket.location.supermarket.name}"></td>-->
+            <td>
+                <!-- Botón para ver detalle -->
+                <a class="btn btn-info btn-sm" th:href="@{/tickets/detail(id=${ticket.id})}"
+                   th:text="#{msg.ticket.detail}"></a>
+
+                <!-- Botón para editar -->
+                <a class="btn btn-primary btn-sm" th:href="@{/tickets/edit(id=${ticket.id})}"
+                   th:text="#{msg.ticket.edit}"></a>
+
+                <!-- Botón para eliminar -->
+                <form class="d-inline" method="post" th:action="@{/tickets/delete}">
+                    <input name="id" th:value="${ticket.id}" type="hidden"/>
+                    <button class="btn btn-danger btn-sm" th:onclick="|return confirm('#{msg.ticket.confirm}');|"
+                            th:text="#{msg.ticket.delete}"
+                            type="submit">
+                    </button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div class="mb-3">
+        <a th:href="@{/tickets/new}" class="btn btn-success" th:text="#{msg.ticket.add}"></a>
+        <a th:href="@{/}" class="btn btn-secondary" th:text="#{msg.general.returnHome}">Volver al inicio</a>
+    </div>
+</main>
+
+<!-- Incluir el fragmento del footer -->
+<footer th:replace="fragments/footer :: footer"></footer>
+
+</body>
+</html>

@@ -21,6 +21,11 @@
                         <a class="nav-link" th:classappend="${activePage == 'provinces'} ? 'active'"
                            th:href="@{/provinces}" th:text="#{msg.header.provinces}">Provincias</a>
                     </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" th:classappend="${activePage == 'tickets'} ? 'active'"
+                           th:href="@{/tickets}" th:text="#{msg.header.tickets}">Recibos</a>
+                    </li>
                 </ul>
 
                 <div class="d-flex align-items-center ms-auto">
