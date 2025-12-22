@@ -107,3 +107,20 @@ VALUES
 -- CEUTA Y MELILLA (18)
 (51, '51', 'Ceuta', 18),
 (52, '52', 'Melilla', 18);
+
+INSERT IGNORE INTO roles (id, name)
+VALUES
+(1, 'ROLE_ADMIN'),
+(2, 'ROLE_MANAGER'),
+(3, 'ROLE_USER');
+
+INSERT IGNORE INTO users (id, username, password, enabled, first_name, last_name, image, created_date, last_modified_date, last_password_change_date)
+VALUES
+(1, 'admin', '$2b$12$v9X6X0O5E0R7f5.1R2T3S.uK8H9G8F7E6D5C4B3A2Z1Y0X9W8V7U6', true, 'Admin', 'User', '/images/admin.jpg', NOW(), NOW(), NOW()),
+(2, 'manager', '$2b$12$m7N6B5V4C3X2Z1A0S9D8FeG7H6J5K4L3M2N1B0V9C8X7Z6A5S4D3F', true, 'Manager', 'User', '/images/manager.jpg', NOW(), NOW(), NOW()),
+(3, 'normal', '$2b$12$p5O4I3U2Y1T0R9E8W7Q6A5s4D3F2G1H0J9K8L7M6N5B4V3C2X1Z0A', true, 'Regular', 'User', '/images/user.jpg', NOW(), NOW(), NOW());
+
+INSERT IGNORE INTO user_roles (user_id, role_id) VALUES
+(1, 1),
+(2, 2),
+(3, 3);

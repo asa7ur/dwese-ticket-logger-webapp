@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" class="h-100">
+<head th:replace="~{fragments/head :: head (#{msg.error.page.title})}"></head>
+
+<body class="d-flex flex-column h-100 bg-light">
+<header th:replace="~{fragments/header :: header}"></header>
+
+<main class="flex-shrink-0 d-flex align-items-center mt-5">
+    <div class="container text-center mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-lg-6">
+                <div class="mb-4">
+                    <i th:if="${errorCode == '403'}" class="fas fa-user-shield fa-6x text-warning"></i>
+                    <i th:if="${errorCode == '404'}" class="fas fa-map-signs fa-6x text-info"></i>
+                    <i th:if="${errorCode == '500'}" class="fas fa-server fa-6x text-danger"></i>
+                    <i th:if="${errorCode != '403' and errorCode != '404' and errorCode != '500'}"
+                       class="fas fa-exclamation-triangle fa-6x text-secondary"></i>
+                </div>
+
+                <h1 class="display-1 fw-bold text-dark" th:text="${errorCode}">404</h1>
+
+                <h2 class="h4 mb-4 text-muted" th:text="#{${errorMessage}}">Ups... algo salió mal.</h2>
+
+                <hr class="my-4">
+
+                <p class="mb-5 lead" th:text="#{msg.error.helper.text}">
+                    No te preocupes, puedes volver a la página principal y seguir navegando.
+                </p>
+
+                <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+                    <a href="/static" class="btn btn-primary btn-lg px-5 shadow-sm">
+                        <i class="fas fa-home me-2"></i>
+                        <span th:text="#{msg.error.back.home}">Volver al inicio</span>
+                    </a>
+                    <button onclick="history.back()" class="btn btn-outline-secondary btn-lg px-4">
+                        <i class="fas fa-arrow-left me-2"></i>
+                        <span th:text="#{msg.error.back.previous}">Ir atrás</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer th:replace="~{fragments/footer :: footer}"></footer>
+</body>
+</html>

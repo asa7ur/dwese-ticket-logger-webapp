@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" class="h-100">
+<head th:replace="~{fragments/head :: head ('Ticket Logger - Login')}"></head>
+<body class="d-flex flex-column h-100 bg-light">
+
+<header th:replace="~{fragments/header :: header}"></header>
+
+<main class="flex-shrink-0">
+    <div class="container">
+        <div class="row justify-content-center align-items-center" style="min-height: 80vh;">
+            <div class="col-12 col-md-8 col-lg-5 mt-5">
+
+                <div class="card shadow-lg border-0 rounded-lg">
+                    <div class="card-body p-5">
+                        <div th:if="${param.error}" class="alert alert-danger d-flex align-items-center" role="alert">
+                            <i class="fas fa-exclamation-triangle me-2"></i>
+                            <span th:text="#{msg.login.error}">Usuario o contraseña incorrectos</span>
+                        </div>
+
+                        <form th:action="@{/login}" method="post">
+                            <div class="mb-4">
+                                <label for="username" class="form-label fw-bold"
+                                       th:text="#{msg.login.username}">Usuario</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light"><i
+                                            class="fas fa-user text-secondary"></i></span>
+                                    <input type="text" id="username" name="username" class="form-control"
+                                           th:placeholder="#{msg.login.username.placeholder}" required autofocus>
+                                </div>
+                            </div>
+
+                            <div class="mb-4">
+                                <label for="password" class="form-label fw-bold" th:text="#{msg.login.password}">Contraseña</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light"><i
+                                            class="fas fa-key text-secondary"></i></span>
+                                    <input type="password" id="password" name="password" class="form-control"
+                                           th:placeholder="#{msg.login.password.placeholder}" required>
+                                </div>
+                            </div>
+
+                            <div class="d-grid gap-2 mt-5">
+                                <button class="btn btn-primary btn-lg shadow-sm" type="submit">
+                                    <span th:text="#{msg.login.submit}">Entrar</span>
+                                    <i class="fas fa-sign-in-alt ms-2"></i>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer th:replace="~{fragments/footer :: footer}"></footer>
+
+</body>
+</html>

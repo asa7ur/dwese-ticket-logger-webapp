@@ -1,12 +1,15 @@
-<header th:fragment="header" xmlns:th="http://www.thymeleaf.org"
+<header th:fragment="header"
+        xmlns:th="http://www.thymeleaf.org"
         xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
     <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top border-bottom border-secondary shadow-sm">
         <div class="container-fluid">
-            <a class="navbar-brand" th:href="@{/}">TL - GARIK ASATRYAN</a>
+            <a class="navbar-brand fw-bold" th:href="@{/}">TL - GARIK ASATRYAN</a>
+
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
                     aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
+
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 <ul class="navbar-nav me-auto mb-2 mb-md-0">
                     <li class="nav-item">
@@ -15,35 +18,56 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" th:classappend="${activePage == 'regions'} ? 'active'" th:href="@{/regions}"
-                           th:text="#{msg.header.regions}">Comunidades Autónomas</a>
+                           th:text="#{msg.header.regions}">Regiones</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" th:classappend="${activePage == 'provinces'} ? 'active'"
                            th:href="@{/provinces}" th:text="#{msg.header.provinces}">Provincias</a>
                     </li>
-
                     <li class="nav-item">
-                        <a class="nav-link" th:classappend="${activePage == 'tickets'} ? 'active'"
-                           th:href="@{/tickets}" th:text="#{msg.header.tickets}">Recibos</a>
+                        <a class="nav-link" th:classappend="${activePage == 'tickets'} ? 'active'" th:href="@{/tickets}"
+                           th:text="#{msg.header.tickets}">Recibos</a>
                     </li>
                 </ul>
 
                 <div class="d-flex align-items-center ms-auto">
-                    <i class="fas fa-globe text-secondary me-2"></i>
 
-                    <a th:href="${@urlBuilder.buildUrl('lang', 'es')}"
-                       class="nav-link px-1 transition-colors"
-                       th:classappend="${#locale.language == 'es'} ? 'text-white fw-bold' : 'text-secondary'">
-                        ES
-                    </a>
+                    <div class="navbar-nav" sec:authorize="isAuthenticated()">
+                        <span class="navbar-text me-3 text-light">
+                            <i class="fas fa-user-circle me-1"></i>
+                            <span sec:authentication="name" class="fw-semibold text-white">Usuario</span>
+                        </span>
+                    </div>
 
-                    <span class="text-secondary mx-1">|</span>
+                    <div class="me-3">
+                        <a sec:authorize="!isAuthenticated()" th:href="@{/login}"
+                           class="btn btn-outline-light btn-sm px-3">
+                            <i class="fas fa-sign-in-alt me-1"></i> Login
+                        </a>
+                        <th:block sec:authorize="isAuthenticated()">
+                            <a href="#" class="btn btn-outline-danger btn-sm px-3"
+                               onclick="document.getElementById('logout-form').submit(); return false;">
+                                <i class="fas fa-sign-out-alt me-1"></i> Logout
+                            </a>
+                            <form id="logout-form" th:action="@{/logout}" method="post" style="display: none;"></form>
+                        </th:block>
+                    </div>
 
-                    <a th:href="${@urlBuilder.buildUrl('lang', 'en')}"
-                       class="nav-link px-1 transition-colors"
-                       th:classappend="${#locale.language == 'en'} ? 'text-white fw-bold' : 'text-secondary'">
-                        EN
-                    </a>
+                    <div class="d-flex align-items-center ps-3 border-start border-secondary">
+                        <i class="fas fa-globe text-secondary me-2" style="font-size: 0.9rem;"></i>
+                        <a th:href="${@urlBuilder.buildUrl('lang', 'es')}"
+                           class="nav-link px-1 small transition-colors"
+                           th:classappend="${#locale.language == 'es'} ? 'text-white fw-bold' : 'text-secondary'">
+                            ES
+                        </a>
+                        <span class="text-secondary mx-1" style="font-size: 0.8rem;">|</span>
+                        <a th:href="${@urlBuilder.buildUrl('lang', 'en')}"
+                           class="nav-link px-1 small transition-colors"
+                           th:classappend="${#locale.language == 'en'} ? 'text-white fw-bold' : 'text-secondary'">
+                            EN
+                        </a>
+                    </div>
+
                 </div>
             </div>
         </div>
