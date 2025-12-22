@@ -118,9 +118,11 @@ INSERT IGNORE INTO users (id, username, password, enabled, first_name, last_name
 VALUES
 (1, 'admin', '$2a$12$6QMc2ixEX4YsCJ4lxKX6eO3b8LznIQc3J7rK2aojkTiENuq7ByypK', true, 'Admin', 'User', '/images/admin.jpg', NOW(), NOW(), NOW()),
 (2, 'manager', '$2a$12$UrjAduLzecRR/c2Ra.d1XeqUPl6iKmXP4CG3LMUaj3UCczUjKAzS2', true, 'Manager', 'User', '/images/manager.jpg', NOW(), NOW(), NOW()),
-(3, 'user', '$2a$12$cBMM4y0TcLRBErXNLunrJeHiyC9fyXc670u9vFNFx1PYz.wN2T4rK', true, 'Regular', 'User', '/images/user.jpg', NOW(), NOW(), NOW());
+(3, 'user', '$2a$12$cBMM4y0TcLRBErXNLunrJeHiyC9fyXc670u9vFNFx1PYz.wN2T4rK', true, 'Regular', 'User', '/images/user.jpg', NOW(), NOW(), NOW()),
+(4, 'asa7ur', '$2a$12$cBMM4y0TcLRBErXNLunrJeHiyC9fyXc670u9vFNFx1PYz.wN2T4rK', true, 'Garik', 'Asatryan', '/images/user.jpg', NOW(), NOW(), NOW());
 
 INSERT IGNORE INTO user_roles (user_id, role_id) VALUES
 (1, 1),
 (2, 2),
-(3, 3);
+(3, 3),
+(4, 3);
