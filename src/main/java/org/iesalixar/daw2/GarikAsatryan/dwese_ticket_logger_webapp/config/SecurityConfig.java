@@ -33,17 +33,25 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> {
                     logger.debug("Configurando autorización de solicitudes HTTP");
                     auth
-                            .requestMatchers("/").permitAll()
-                            .requestMatchers("/admin").hasRole("ADMIN")
-                            .requestMatchers("/regions", "/provinces").hasRole("MANAGER")
-                            .requestMatchers("/tickets").hasRole("USER")
+                            // 1. Permitir recursos estáticos y páginas públicas
+                            .requestMatchers("/", "/login", "/error", "/css/**", "/js/**", "/images/**", "/uploads/**").permitAll()
+
+                            // 2. Rutas de Administración (Solo ADMIN)
+                            .requestMatchers("/admin/**").hasRole("ADMIN")
+
+                            // 3. Rutas de Gestión (ADMIN o MANAGER)
+                            .requestMatchers("/regions/**", "/provinces/**").hasAnyRole("ADMIN", "MANAGER")
+
+                            // 4. Rutas de Usuario (ADMIN, MANAGER o USER)
+                            .requestMatchers("/tickets/**").hasAnyRole("ADMIN", "MANAGER", "USER")
+
                             .anyRequest().authenticated();
                 })
                 .formLogin(form -> {
                     logger.debug("Configurando formulario de inicio de sesión");
                     form
                             .loginPage("/login")
-                            .defaultSuccessUrl("/")
+                            .defaultSuccessUrl("/", true)
                             .permitAll();
                 })
                 .sessionManagement(session -> {
