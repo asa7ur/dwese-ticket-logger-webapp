@@ -4,7 +4,6 @@ import jakarta.validation.Valid;
 import org.iesalixar.daw2.GarikAsatryan.dwese_ticket_logger_webapp.entities.Product;
 import org.iesalixar.daw2.GarikAsatryan.dwese_ticket_logger_webapp.entities.Ticket;
 import org.iesalixar.daw2.GarikAsatryan.dwese_ticket_logger_webapp.repositories.ProductRepository;
-import org.iesalixar.daw2.GarikAsatryan.dwese_ticket_logger_webapp.repositories.ProvinceRepository;
 import org.iesalixar.daw2.GarikAsatryan.dwese_ticket_logger_webapp.repositories.TicketRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -52,12 +51,6 @@ public class TicketProductController {
         return "ticket";
     }
 
-    /**
-     * Muestra el formulario para crear un nuevo ticket.
-     *
-     * @param model Modelo para pasar datos a la vista.
-     * @return El nombre de la plantilla Thymeleaf para el formulario de ticket.
-     */
     @GetMapping("/new")
     public String showNewForm(Model model) {
         logger.info("Mostrando formulario para nuevo ticket.");
@@ -68,8 +61,12 @@ public class TicketProductController {
     }
 
     @PostMapping("/insert")
-    public String insertTicket(@Valid @ModelAttribute("ticket") Ticket ticket, BindingResult result,
-                               RedirectAttributes redirectAttributes, Locale locale, Model model) {
+    public String insertTicket(
+            @Valid @ModelAttribute("ticket") Ticket ticket,
+            BindingResult result,
+            RedirectAttributes redirectAttributes,
+            Locale locale,
+            Model model) {
         logger.info("Insertando nuevo ticket con fecha {}", ticket.getDate());
         try {
             if (result.hasErrors()) {
@@ -102,8 +99,12 @@ public class TicketProductController {
     }
 
     @PostMapping("/update")
-    public String updateTicket(@Valid @ModelAttribute("ticket") Ticket ticket, BindingResult result,
-                               RedirectAttributes redirectAttributes, Locale locale, Model model) {
+    public String updateTicket(
+            @Valid @ModelAttribute("ticket") Ticket ticket,
+            BindingResult result,
+            RedirectAttributes redirectAttributes,
+            Locale locale,
+            Model model) {
         logger.info("Actualizando ticket con ID {}", ticket.getId());
         try {
             if (result.hasErrors()) {
@@ -152,7 +153,10 @@ public class TicketProductController {
     }
 
     @PostMapping("/addExistingProduct")
-    public String searchProduct(@RequestParam("productSearch") String productSearch, @RequestParam("ticketId") Long ticketId, Model model) {
+    public String searchProduct(
+            @RequestParam("productSearch") String productSearch,
+            @RequestParam("ticketId") Long ticketId,
+            Model model) {
         logger.info("Buscando productos que coincidan con '{}'", productSearch);
         List<Product> searchResults = productRepository.findByNameContainingIgnoreCase(productSearch);
         Optional<Ticket> ticketOpt = ticketRepository.findById(ticketId);
@@ -170,7 +174,11 @@ public class TicketProductController {
     }
 
     @PostMapping("/addProduct")
-    public String addProductToTicket(@RequestParam("ticketId") Long ticketId, @RequestParam("productId") Long productId, RedirectAttributes redirectAttributes, Locale locale) {
+    public String addProductToTicket(
+            @RequestParam("ticketId") Long ticketId,
+            @RequestParam("productId") Long productId,
+            RedirectAttributes redirectAttributes,
+            Locale locale) {
         logger.info("Añadiendo producto con ID {} al ticket con ID {}", productId, ticketId);
         try {
             Optional<Ticket> ticketOpt = ticketRepository.findById(ticketId);
@@ -199,8 +207,11 @@ public class TicketProductController {
     }
 
     @PostMapping("/addNewProduct")
-    public String addNewProductToTicket(@RequestParam("ticketId") Long ticketId, @RequestParam("productName") String productName,
-                                        @RequestParam("productPrice") BigDecimal productPrice, RedirectAttributes redirectAttributes) {
+    public String addNewProductToTicket(
+            @RequestParam("ticketId") Long ticketId,
+            @RequestParam("productName") String productName,
+            @RequestParam("productPrice") BigDecimal productPrice,
+            RedirectAttributes redirectAttributes) {
         logger.info("Añadiendo nuevo producto '{}' con precio {} al ticket con ID {}", productName, productPrice, ticketId);
         try {
             Optional<Ticket> ticketOpt = ticketRepository.findById(ticketId);
@@ -237,7 +248,10 @@ public class TicketProductController {
     }
 
     @PostMapping("/removeProduct")
-    public String removeProductFromTicket(@RequestParam("ticketId") Long ticketId, @RequestParam("productId") Long productId, RedirectAttributes redirectAttributes) {
+    public String removeProductFromTicket(
+            @RequestParam("ticketId") Long ticketId,
+            @RequestParam("productId") Long productId,
+            RedirectAttributes redirectAttributes) {
         logger.info("Eliminando producto con ID {} del ticket con ID {}", productId, ticketId);
         try {
             Optional<Ticket> ticketOpt = ticketRepository.findById(ticketId);

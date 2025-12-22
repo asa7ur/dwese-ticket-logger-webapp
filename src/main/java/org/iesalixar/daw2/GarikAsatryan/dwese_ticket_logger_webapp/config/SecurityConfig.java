@@ -1,5 +1,7 @@
 package org.iesalixar.daw2.GarikAsatryan.dwese_ticket_logger_webapp.config;
 
+import org.iesalixar.daw2.GarikAsatryan.dwese_ticket_logger_webapp.handlers.CustomOAuth2FailureHandler;
+import org.iesalixar.daw2.GarikAsatryan.dwese_ticket_logger_webapp.handlers.CustomOAuth2SuccessHandler;
 import org.iesalixar.daw2.GarikAsatryan.dwese_ticket_logger_webapp.services.CustomUserDetailsService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -7,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -20,11 +23,18 @@ import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 @EnableWebSecurity
+@EnableMethodSecurity(prePostEnabled = true)
 public class SecurityConfig {
     private static final Logger logger = LoggerFactory.getLogger(SecurityConfig.class);
 
     @Autowired
     private CustomUserDetailsService userDetailsService;
+
+    @Autowired
+    private CustomOAuth2SuccessHandler customOAuth2SuccessHandler;
+
+    @Autowired
+    private CustomOAuth2FailureHandler customOAuth2FailureHandler;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -53,6 +63,13 @@ public class SecurityConfig {
                             .loginPage("/login")
                             .defaultSuccessUrl("/", true)
                             .permitAll();
+                })
+                .oauth2Login(oauth2 -> {
+                    logger.debug("Configurando login con OAuth2");
+                    oauth2
+                            .loginPage("/login")
+                            .successHandler(customOAuth2SuccessHandler)
+                            .failureHandler(customOAuth2FailureHandler);
                 })
                 .sessionManagement(session -> {
                     logger.debug("Configurando política de gestión de sesiones");
