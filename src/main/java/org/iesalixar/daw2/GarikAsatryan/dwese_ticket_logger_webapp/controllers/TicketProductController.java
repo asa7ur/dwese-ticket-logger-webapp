@@ -64,7 +64,7 @@ public class TicketProductController {
         List<Product> listProducts = productRepository.findAll();
         model.addAttribute("ticket", new Ticket());
         model.addAttribute("listProducts", listProducts);
-        return "ticket-form.html";
+        return "ticket-form";
     }
 
     @PostMapping("/insert")
@@ -75,7 +75,7 @@ public class TicketProductController {
             if (result.hasErrors()) {
                 List<Product> listProducts = productRepository.findAll();
                 model.addAttribute("listProducts", listProducts);
-                return "ticket-form.html";
+                return "ticket-form";
             }
             ticketRepository.save(ticket);
             logger.info("Ticket insertado con éxito.");
@@ -98,7 +98,7 @@ public class TicketProductController {
         List<Product> listProducts = productRepository.findAll();
         model.addAttribute("ticket", ticket.get());
         model.addAttribute("listProducts", listProducts);
-        return "ticket-form.html";
+        return "ticket-form";
     }
 
     @PostMapping("/update")
@@ -109,7 +109,7 @@ public class TicketProductController {
             if (result.hasErrors()) {
                 List<Product> listProducts = productRepository.findAll();
                 model.addAttribute("listProducts", listProducts);
-                return "ticket-form.html";
+                return "ticket-form";
             }
             ticketRepository.save(ticket);
             logger.info("Ticket con ID {} actualizado con éxito.", ticket.getId());

@@ -14,7 +14,8 @@
     <div th:if="${successMessage}" class="alert alert-success" th:text="${successMessage}"></div>
 
     <form class="mt-4"
-          method="post" th:action="${ticket.id == null} ? @{/tickets/insert} : @{/tickets/update}"
+          method="post"
+          th:action="@{${ticket.id == null ? '/tickets/insert}' : '/tickets/update'}}"
           th:object="${ticket}">
         <input th:field="*{id}" type="hidden"/>
         <div class="text-danger" th:errors="*{id}" th:if="${#fields.hasErrors('id')}"></div>
