@@ -35,9 +35,6 @@ public class TicketProductController {
     private ProductRepository productRepository;
 
     @Autowired
-    private ProvinceRepository provinceRepository;
-
-    @Autowired
     private MessageSource messageSource;
 
     @GetMapping
@@ -151,7 +148,7 @@ public class TicketProductController {
         model.addAttribute("ticket", ticket);
         model.addAttribute("products", ticket.getProducts());
 
-        return "ticket-detail.html";
+        return "ticket-detail";
     }
 
     @PostMapping("/addExistingProduct")

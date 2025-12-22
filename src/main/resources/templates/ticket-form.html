@@ -33,19 +33,6 @@
             <div class="text-danger" th:errors="*{discount}" th:if="${#fields.hasErrors('discount')}"></div>
         </div>
 
-        <!-- Campo para la ubicación del ticket -->
-        <!-- <div class="mb-3">
-            <label for="location" class="form-label" th:text="#{msg.ticket-form.location}"></label>
-            <select th:field="*{location.id}" id="location" class="form-control" required>
-                <option value="" th:text="#{msg.ticket-form.select-location}"></option>
-                <option th:each="location : ${listLocations}"
-                        th:value="${location.id}"
-                        th:text="${location.address} + ' - ' + ${location.province.name} + ' - ' + ${location.supermarket.name}"
-                        th:selected="${ticket.location?.id == location.id}"></option>
-            </select>
-            <div th:if="${#fields.hasErrors('location.id')}" class="text-danger" th:errors="*{location.id}"></div>
-        </div> -->
-
         <!-- Botón para enviar el formulario -->
         <button class="btn btn-primary"
                 th:text="${ticket.id == null} ? #{msg.ticket-form.create} : #{msg.ticket-form.update}"
